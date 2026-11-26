@@ -24,9 +24,8 @@
     rings: '<svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="15.5" cy="22.5" r="10"/><circle cx="24.5" cy="22.5" r="10"/><path d="m20 7 3 5h-6l3-5Z"/></svg>'
   };
 
-  $("event-grid").innerHTML = data.events.map((event, i) => `
+  $("event-grid").innerHTML = data.events.map((event) => `
     <article class="event-card reveal">
-      <span class="event-card__number">0${i + 1}</span>
       <div class="event-card__icon">${icon[event.icon] || icon.sun}</div>
       <div><h3>${event.name}</h3><p>${event.note}</p></div>
     </article>`).join("");
@@ -88,7 +87,32 @@
   }), { threshold: .13 });
   document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
   $("hero-greeting").closest(".reveal").classList.add("visible");
-  addEventListener("scroll", () => $("topbar").classList.toggle("scrolled", scrollY > 50), { passive: true });
+  function updateReadingProgress() {
+    const height = document.documentElement.scrollHeight - innerHeight;
+    $("reading-progress").style.transform = `scaleX(${height > 0 ? Math.min(1, Math.max(0, scrollY / height)) : 0})`;
+  }
+  addEventListener("scroll", updateReadingProgress, { passive: true });
+  addEventListener("resize", updateReadingProgress);
+  updateReadingProgress();
+
+  const menu = $("mobile-nav");
+  menu.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => { menu.open = false; }));
+  menu.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && menu.open) {
+      menu.open = false;
+      menu.querySelector("summary").focus();
+    }
+  });
+  document.addEventListener("click", (event) => {
+    if (menu.open && !menu.contains(event.target)) menu.open = false;
+  });
+
+  const theme = $("theme-button");
+  theme.addEventListener("click", () => {
+    const evening = document.documentElement.toggleAttribute("data-evening");
+    theme.setAttribute("aria-pressed", evening);
+    theme.textContent = evening ? "☀" : "☾";
+  });
 
   function startCountdown() {
     const target = new Date(data.dateISO).getTime();
@@ -158,12 +182,18 @@
     document.body.classList.remove("locked");
     pageContent.forEach((element) => { element.inert = false; });
     musicButton.hidden = false;
-    if (focusWasInOpening) $("invitation-title").focus({ preventScroll: true });
+    document.body.classList.add("invitation-open");
+    if (focusWasInOpening) {
+      const destination = document.getElementById(location.hash.slice(1));
+      const title = destination?.querySelector("h1, h2") || $("invocation-title");
+      title.setAttribute("tabindex", "-1");
+      title.focus({ preventScroll: true });
+    }
     if (reducedMotion) {
       opening.hidden = true;
     } else {
       petals(28);
-      setTimeout(() => { opening.hidden = true; }, 1600);
+      setTimeout(() => { opening.hidden = true; }, 2600);
     }
   }
 
@@ -185,10 +215,15 @@
     if (event.key === "Escape") continueSilently();
   });
 
-  pageContent.forEach((element) => { element.inert = true; });
-  document.body.classList.add("locked");
-  opening.hidden = false;
-  soundButton.focus({ preventScroll: true });
-  const autoReveal = setTimeout(revealInvitation, 6500);
+  let autoReveal;
+  if (location.hash) {
+    musicButton.hidden = false;
+  } else {
+    pageContent.forEach((element) => { element.inert = true; });
+    document.body.classList.add("locked");
+    opening.hidden = false;
+    soundButton.focus({ preventScroll: true });
+    autoReveal = setTimeout(revealInvitation, 6500);
+  }
   playMusic(true);
 })();

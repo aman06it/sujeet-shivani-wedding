@@ -11,16 +11,21 @@
   <title>Sujeet & Shivani — Wedding Invitation</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Italiana&family=Manrope:wght@400;500;600&family=Tiro+Devanagari+Sanskrit&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=music">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600&family=Manrope:wght@400;500;600;700&family=Tiro+Devanagari+Sanskrit&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=ceremony">
   <script src="wedding-data.js"></script>
 </head>
 <body>
   <div class="grain" aria-hidden="true"></div>
   <div class="petals" id="petals" aria-hidden="true"></div>
+  <div class="reading-progress" id="reading-progress" aria-hidden="true"></div>
 
   <audio id="wedding-music" src="wedding-invitation-music.mp3" preload="auto" loop></audio>
   <div class="opening" id="opening" role="dialog" aria-modal="true" aria-labelledby="opening-title" hidden>
+    <div class="opening__interlude" aria-hidden="true">
+      <img src="ganesha-blessing.jpg" width="120" height="120" alt="">
+      <p lang="sa">॥ श्री गणेशाय नमः ॥</p>
+    </div>
     <div class="opening__panel opening__panel--left"></div>
     <div class="opening__panel opening__panel--right"></div>
     <div class="opening__arch" aria-hidden="true"></div>
@@ -37,21 +42,42 @@
   </div>
 
   <header class="topbar" id="topbar">
-    <a class="brand" href="#home" aria-label="Back to top"><span id="brand-monogram">S · S</span></a>
-    <nav aria-label="Main navigation">
-      <a href="#story">Our story</a>
-      <a href="#celebration">Celebration</a>
-      <a href="#venue">Venue</a>
+    <a class="brand" href="#blessing" aria-label="Back to the blessing"><span id="brand-monogram">S · S</span></a>
+    <nav class="desktop-nav" aria-label="Main navigation">
+      <a href="#home">Invitation</a><a href="#story">The couple</a><a href="#celebration">Ceremonies</a><a href="#venue">Venue</a><a href="#rsvp">RSVP</a>
     </nav>
     <div class="topbar__actions">
-      <button type="button" class="music-button" id="music-button" hidden>Play music</button>
+      <button type="button" class="icon-button" id="theme-button" aria-pressed="false" aria-label="Evening theme" title="Evening theme">☾</button>
       <button class="icon-button" id="share-button" aria-label="Share invitation">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V3m0 0L7 8m5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>
       </button>
+      <details class="mobile-nav" id="mobile-nav">
+        <summary class="icon-button" aria-label="Invitation menu">☰</summary>
+        <nav aria-label="Mobile navigation">
+          <a href="#blessing">Blessing</a><a href="#home">Invitation</a><a href="#story">The couple</a><a href="#celebration">Ceremonies</a><a href="#venue">Venue</a><a href="#rsvp">RSVP</a>
+        </nav>
+      </details>
     </div>
+    <button type="button" class="music-button" id="music-button" hidden>Play music</button>
   </header>
 
   <main>
+    <section class="invocation section" id="blessing" aria-labelledby="invocation-title">
+      <div class="invocation__inner">
+        <p class="invocation__om" lang="sa" aria-hidden="true">ॐ</p>
+        <div class="invocation__portrait">
+          <img src="ganesha-blessing.jpg" width="600" height="600" alt="Lord Ganesha seated on a lotus">
+        </div>
+        <h2 id="invocation-title" tabindex="-1" lang="sa">॥ श्री गणेशाय नमः ॥</h2>
+        <p class="invocation__translation">Shri Ganeshaya Namah</p>
+        <div class="invocation__verse">
+          <p lang="sa">वक्रतुण्ड महाकाय सूर्यकोटि समप्रभ ।<br>निर्विघ्नं कुरु मे देव सर्वकार्येषु सर्वदा ॥</p>
+          <p>Lord Ganesha, radiant as a million suns, may you clear the way for all that lies ahead.</p>
+        </div>
+        <a class="invocation__continue" href="#home">Read the invitation</a>
+      </div>
+    </section>
+
     <section class="hero" id="home">
       <div class="hero__orb hero__orb--one"></div>
       <div class="hero__orb hero__orb--two"></div>
@@ -73,21 +99,19 @@
           <strong id="date-long">Details to be announced</strong>
           <span id="date-location">Venue details coming soon</span>
         </div>
-        <a class="scroll-cue" href="#story"><span>Discover our celebration</span><i></i></a>
+        <a class="button button--solid invitation-link" href="#celebration">View the ceremonies</a>
       </div>
     </section>
 
     <section class="story section" id="story">
       <div class="section__intro reveal">
-        <p class="eyebrow">A new chapter</p>
-        <h2>One beautiful <em>beginning.</em></h2>
-        <p>Some stories arrive softly — in a conversation, a shared laugh, a feeling of home. Ours led us here, and we would love for you to be part of what comes next.</p>
+        <p class="eyebrow" lang="hi">वर एवं वधू</p>
+        <h2>The <em>couple</em></h2>
       </div>
-      <div class="vow-card reveal">
-        <div class="vow-card__mark">॥</div>
-        <blockquote>“In all the world, there is no heart for me like yours.”</blockquote>
-        <p>With gratitude in our hearts and the blessings of our families</p>
-        <div class="signature"><span id="signature-bride">Shivani</span> <i>&</i> <span id="signature-groom">Sujeet</span></div>
+      <div class="couple-grid">
+        <article class="couple-card reveal"><p class="eyebrow">The bride</p><h3 id="signature-bride">Shivani</h3></article>
+        <span class="couple-grid__join" aria-hidden="true">&amp;</span>
+        <article class="couple-card reveal"><p class="eyebrow">The groom</p><h3 id="signature-groom">Sujeet</h3></article>
       </div>
     </section>
 
@@ -100,8 +124,8 @@
 
     <section class="celebration section" id="celebration">
       <div class="section__intro section__intro--light reveal">
-        <p class="eyebrow">The celebration</p>
-        <h2>Three moments.<br><em>One forever.</em></h2>
+        <p class="eyebrow" lang="hi">विवाह कार्यक्रम</p>
+        <h2>Wedding <em>ceremonies</em></h2>
       </div>
       <div class="event-grid" id="event-grid"></div>
       <p class="detail-note reveal" id="detail-note">The final schedule will be shared with our guests soon.</p>
@@ -154,6 +178,6 @@
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script src="script.js?v=music"></script>
+  <script src="script.js?v=ceremony"></script>
 </body>
 </html>
