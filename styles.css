@@ -427,6 +427,7 @@ body { background-image: var(--paper-pattern); background-size: auto, 28px 28px;
 .venue__card > p, .rsvp__inner > p { color: var(--soft); }
 .venue .button--outline, .venue .button--solid { border-color: #b87845; color: #fff9eb; background: linear-gradient(120deg, #741d38, #886021); }
 .rsvp__inner { max-width: 50rem; margin: 2.4rem auto 0; padding: clamp(1.5rem, 5vw, 3rem); border-radius: 1rem; background: var(--card); }
+.rsvp__inner > .rsvp__status { margin: 0 auto .55rem; color: var(--accent); font-size: clamp(1.1rem, 3vw, 1.35rem); }
 .rsvp__inner > #rsvp-copy { margin: 0 auto; }
 .rsvp-stats:not([hidden]), .rsvp-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: .75rem; margin-top: 1.25rem; }
 .rsvp-stat { display: grid; gap: .3rem; min-width: 8rem; padding: .85rem; border-radius: .65rem; background: var(--paper-deep); }
@@ -434,6 +435,7 @@ body { background-image: var(--paper-pattern); background-size: auto, 28px 28px;
 .rsvp-stat span { color: var(--soft); font-size: .85rem; }
 .rsvp-whatsapp { color: #fff; background: #116543; }
 .rsvp-call { color: #fff; background: #2054a5; }
+.rsvp-actions .button:disabled, .rsvp-actions .button[aria-disabled="true"] { border-color: var(--line); background: var(--paper-deep); color: var(--soft); cursor: default; transform: none; }
 #rsvp-note { margin-top: 1.15rem; }
 .divine-card { min-height: 11rem; padding: 1.15rem .7rem; color: var(--accent); cursor: pointer; transition: transform .25s ease, border-color .25s ease; }
 .divine-card:hover, .divine-card[aria-pressed="true"] { border-color: #c39845; }

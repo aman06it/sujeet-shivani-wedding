@@ -130,9 +130,12 @@
   const rsvpNumber = (data.rsvpPhone || "").replace(/\D/g, "");
   if (rsvpNumber) {
     const rsvp = $("rsvp-button");
-    $("rsvp-actions").classList.remove("is-hidden");
-    $("rsvp-call").href = `tel:${data.rsvpPhone.startsWith("+") ? "+" : ""}${rsvpNumber}`;
-    set("rsvp-copy", `Kindly reply by ${data.rsvpBy}. We would be honoured to celebrate with you.`);
+    const call = $("rsvp-call");
+    set("rsvp-status", "कृपया अपनी उपस्थिति की पुष्टि करें");
+    set("rsvp-copy", data.rsvpBy ? `Kindly reply by ${data.rsvpBy}.` : "Please let us know if you can join us.");
+    rsvp.disabled = false;
+    call.href = `tel:${data.rsvpPhone.startsWith("+") ? "+" : ""}${rsvpNumber}`;
+    call.removeAttribute("aria-disabled");
     rsvp.addEventListener("click", () => {
       const message = encodeURIComponent(`Hello! I am responding to ${data.couple.groom} & ${data.couple.bride}'s wedding invitation.`);
       location.href = `https://wa.me/${rsvpNumber}?text=${message}`;
