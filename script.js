@@ -142,6 +142,91 @@
     }
   }
 
+  function setupPetalEffects() {
+    const motionPreference = matchMedia("(prefers-reduced-motion: reduce)");
+    const ambient = $("ambient-motifs");
+    const effects = $("pointer-effects");
+    const portrait = $("blessing-portrait");
+    const motifs = ["✿", "✧", "❋", "◈", "ॐ"];
+    const spacing = 36;
+    let lastPoint;
+
+    function refreshAmbientMotifs() {
+      ambient.replaceChildren();
+      effects.replaceChildren();
+      lastPoint = undefined;
+      if (motionPreference.matches) return;
+
+      for (let i = 0; i < 24; i++) {
+        const motif = document.createElement("span");
+        motif.textContent = motifs[i % motifs.length];
+        motif.style.left = `${2 + (i % 6) * 16 + Math.random() * 9}%`;
+        motif.style.top = `${5 + Math.floor(i / 6) * 23 + Math.random() * 13}%`;
+        motif.style.setProperty("--motif-size", `${.75 + Math.random() * .65}rem`);
+        motif.style.setProperty("--drift-time", `${16 + Math.random() * 14}s`);
+        motif.style.setProperty("--drift-offset", `${-Math.random() * 20}s`);
+        ambient.append(motif);
+      }
+    }
+
+    function addEffect(effect, x, y) {
+      effect.style.left = `${x}px`;
+      effect.style.top = `${y}px`;
+      effect.addEventListener("animationend", () => effect.remove(), { once: true });
+      effects.append(effect);
+    }
+
+    function trail(event) {
+      if (motionPreference.matches || document.body.classList.contains("locked") || event.pointerType !== "mouse") return;
+      const { clientX: x, clientY: y } = event;
+      if (lastPoint && (event.timeStamp - lastPoint.time < spacing || Math.hypot(x - lastPoint.x, y - lastPoint.y) < 6)) return;
+      lastPoint = { x, y, time: event.timeStamp };
+      const sparkle = document.createElement("span");
+      sparkle.className = "pointer-sparkle";
+      sparkle.style.setProperty("--sparkle-color", Math.random() < .55 ? "#b78a35" : "#9f466b");
+      addEffect(sparkle, x, y);
+    }
+
+    function burst(x, y, radius = 67) {
+      const ring = document.createElement("span");
+      ring.className = "pointer-burst";
+      ring.style.setProperty("--burst-radius", `${radius}px`);
+      for (let i = 0; i < 14; i++) {
+        const petal = document.createElement("i");
+        petal.style.setProperty("--angle", `${(i * 360) / 14}deg`);
+        ring.append(petal);
+      }
+      addEffect(ring, x, y);
+    }
+
+    document.querySelector("main").addEventListener("pointermove", trail, { passive: true });
+    document.querySelector("main").addEventListener("click", (event) => {
+      if (motionPreference.matches || document.body.classList.contains("locked")) return;
+      if (portrait.contains(event.target)) {
+        const rect = portrait.getBoundingClientRect();
+        burst(rect.left + rect.width / 2, rect.top + rect.height / 2, rect.width / 2 + 18);
+      } else if (event.detail && !event.target.closest("a, button, input, select, textarea")) {
+        burst(event.clientX, event.clientY);
+      }
+    });
+    portrait.addEventListener("click", () => {
+      if (motionPreference.matches) {
+        toast("Flower petals offered");
+        return;
+      }
+      portrait.classList.remove("offering");
+      // Restart the glow when guests offer petals again before it ends.
+      void portrait.offsetWidth;
+      portrait.classList.add("offering");
+    });
+    portrait.addEventListener("animationend", () => portrait.classList.remove("offering"));
+
+    refreshAmbientMotifs();
+    motionPreference.addEventListener("change", refreshAmbientMotifs);
+  }
+
+  setupPetalEffects();
+
   let toastTimer;
   function toast(message) {
     const el = $("toast");

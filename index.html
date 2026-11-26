@@ -12,12 +12,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600&family=Manrope:wght@400;500;600;700&family=Tiro+Devanagari+Sanskrit&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=classic-invite">
+  <link rel="stylesheet" href="styles.css?v=petal-motion">
   <script src="wedding-data.js"></script>
 </head>
 <body>
   <div class="grain" aria-hidden="true"></div>
   <div class="petals" id="petals" aria-hidden="true"></div>
+  <div class="ambient-motifs" id="ambient-motifs" aria-hidden="true"></div>
+  <div class="pointer-effects" id="pointer-effects" aria-hidden="true"></div>
   <div class="reading-progress" id="reading-progress" aria-hidden="true"></div>
 
   <audio id="wedding-music" src="wedding-invitation-music.mp3" preload="auto" loop></audio>
@@ -75,9 +77,9 @@
     <section class="invocation section" id="blessing" aria-labelledby="invocation-title">
       <div class="invocation__inner">
         <p class="invocation__om" lang="sa" aria-hidden="true">ॐ</p>
-        <div class="invocation__portrait">
-          <img src="ganesha-blessing.jpg" width="600" height="600" alt="Lord Ganesha seated on a lotus">
-        </div>
+        <button type="button" class="invocation__portrait" id="blessing-portrait" aria-label="Offer flower petals to Lord Ganesha" title="Offer flower petals">
+          <img src="ganesha-blessing.jpg" width="600" height="600" alt="">
+        </button>
         <h2 id="invocation-title" tabindex="-1" lang="sa">॥ श्री गणेशाय नमः ॥</h2>
         <p class="invocation__translation">Shri Ganeshaya Namah</p>
         <div class="invocation__verse">
@@ -202,6 +204,6 @@
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script src="script.js?v=classic-invite"></script>
+  <script src="script.js?v=petal-motion"></script>
 </body>
 </html>

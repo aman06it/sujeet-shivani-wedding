@@ -154,6 +154,31 @@ footer > p:first-child { margin: 0; font-size: .78rem; letter-spacing: .12em; te
 
 .petals { position: fixed; inset: 0; pointer-events: none; z-index: 20; overflow: hidden; }
 .petal { position: absolute; top: -30px; width: 10px; height: 16px; border-radius: 100% 0 100% 0; background: rgba(224,173,168,.65); animation: fall linear forwards; }
+.ambient-motifs, .pointer-effects { position: fixed; inset: 0; pointer-events: none; overflow: hidden; }
+.ambient-motifs { z-index: 2; color: #b6786d; mask-image: radial-gradient(ellipse at center, #0003 12%, #000 74%); }
+.ambient-motifs span { position: absolute; font: var(--motif-size) var(--sanskrit); line-height: 1; opacity: .13; animation: motif-drift var(--drift-time) var(--drift-offset) ease-in-out infinite alternate; }
+.ambient-motifs span:nth-child(3n) { color: #ad883c; }
+.ambient-motifs span:nth-child(4n) { color: #9a638e; }
+:root[data-evening] .ambient-motifs { color: #db9b92; }
+.pointer-effects { z-index: 24; }
+.pointer-sparkle { position: absolute; width: 5px; aspect-ratio: 1; margin: -2.5px; border-radius: 50%; background: var(--sparkle-color); animation: sparkle-fade .65s ease-out both; }
+.pointer-burst { position: absolute; width: 0; height: 0; animation: petal-ring 1.05s cubic-bezier(.15,.5,.25,1) both; }
+.pointer-burst i { position: absolute; width: 9px; height: 14px; margin: -7px -4.5px; border-radius: 90% 30% 80% 35%; background: linear-gradient(145deg, #ec92b6, #ac315f); transform: rotate(var(--angle)) translateX(var(--burst-radius)) rotate(48deg); }
+.pointer-burst i:nth-child(3n) { background: linear-gradient(145deg, #f6d88a, #ca9649); }
+.pointer-burst i:nth-child(4n) { width: 6px; height: 10px; }
+@keyframes motif-drift {
+  from { transform: translate3d(-10px, 16px, 0) rotate(-16deg); opacity: .095; }
+  to { transform: translate3d(13px, -23px, 0) rotate(24deg); opacity: .23; }
+}
+@keyframes sparkle-fade {
+  from { opacity: .88; transform: scale(1); }
+  to { opacity: 0; transform: translateY(9px) scale(.2); }
+}
+@keyframes petal-ring {
+  0% { opacity: 0; transform: scale(.18) rotate(-28deg); }
+  18% { opacity: 1; }
+  100% { opacity: 0; transform: scale(1.36) rotate(26deg); }
+}
 .toast { position: fixed; z-index: 110; left: 50%; bottom: 1.5rem; max-width: calc(100vw - 2rem); padding: .8rem 1.2rem; border-radius: 999px; color: var(--paper); background: rgba(31,2,11,.92); font-size: .8rem; opacity: 0; transform: translate(-50%, 20px); pointer-events: none; transition: opacity .25s ease, transform .25s ease; }
 .toast.show { opacity: 1; transform: translate(-50%, 0); }
 .reveal { opacity: 0; transform: translateY(28px); transition: opacity .8s ease, transform .8s cubic-bezier(.2,.7,.2,1); }
@@ -190,7 +215,7 @@ footer > p:first-child { margin: 0; font-size: .78rem; letter-spacing: .12em; te
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-delay: 0ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
-  .petals { display: none; }
+  .petals, .ambient-motifs, .pointer-effects { display: none; }
 }
 
 :root {
@@ -248,7 +273,19 @@ section[id] { scroll-margin-top: 1rem; }
 .invocation { min-height: min(100svh, 52rem); display: grid; place-items: center; text-align: center; padding-block: 5rem 3rem; }
 .invocation__inner { width: min(100%, 31rem); }
 .invocation__om { margin: 0 0 .7rem; color: var(--accent); font-size: 2rem; line-height: 1; }
-.invocation__portrait { display: grid; place-items: center; width: clamp(7rem, 18vw, 10rem); aspect-ratio: 1; margin: 0 auto 1.6rem; border: 1px solid #bc8d4c; border-radius: 50%; padding: .35rem; background: #f7e8cc; color: #8e3b36; box-shadow: 0 0 0 .35rem #d7a45335, 0 0 2.75rem #e9a63c45; overflow: hidden; }
+.invocation__portrait { display: grid; place-items: center; width: clamp(7rem, 18vw, 10rem); aspect-ratio: 1; margin: 0 auto 1.6rem; border: 1px solid #bc8d4c; border-radius: 50%; padding: .35rem; background: #f7e8cc; color: #8e3b36; box-shadow: 0 0 0 .35rem #d7a45335, 0 0 2.75rem #e9a63c45; overflow: hidden; cursor: pointer; transition: transform .3s ease, box-shadow .3s ease; }
+.invocation__portrait:focus-visible { outline: 2px solid var(--accent); outline-offset: .4rem; }
+.invocation__portrait.offering { animation: offering-glow .85s ease both; }
+@keyframes offering-glow {
+  35% { box-shadow: 0 0 0 .65rem #d7a45355, 0 0 3.8rem #e9a63c85; }
+}
+@media (hover: hover) and (pointer: fine) {
+  .invocation__portrait:hover { transform: scale(1.045); box-shadow: 0 0 0 .4rem #d7a45348, 0 0 3.3rem #e9a63c60; }
+  .ritual-card.reveal.visible:hover, .couple-card.reveal.visible:hover { transform: translateY(-4px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .invocation__portrait:hover, .ritual-card.reveal.visible:hover, .couple-card.reveal.visible:hover { transform: none; }
+}
 .invocation__portrait img { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: 50%; }
 .invocation h2 { margin: 0; color: var(--accent); font-size: clamp(1.55rem, 4vw, 2.5rem); font-weight: 400; }
 .invocation__translation { margin: .35rem 0 1.35rem; color: var(--soft); font: italic 600 1.35rem var(--serif); }
