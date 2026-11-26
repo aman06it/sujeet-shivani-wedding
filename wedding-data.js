@@ -27,10 +27,11 @@ window.WEDDING = {
     { label: "The wedding", message: "We’ll take our vows around the sacred fire." },
     { label: "Your blessings", message: "We look forward to starting married life with your love and blessings." }
   ],
-  // Add dateISO, dateLong, time, venue, and mapsUrl to each event when confirmed.
+  // Review the ceremony list, then add dateISO, dateLong, time, venue, mapsUrl, and dayLabel when confirmed.
   events: [
-    { name: "Haldi", note: "Sunshine, laughter & blessings", icon: "sun" },
-    { name: "Mehndi", note: "Henna, music & an evening of joy", icon: "leaf" },
-    { name: "Wedding", note: "Sacred vows around the fire", icon: "rings", useWeddingDetails: true }
+    { name: "Pooja Ceremony", note: "Prayers and blessings for the couple’s new life together.", icon: "prayer" },
+    { name: "Haldi Ceremony", note: "Turmeric, laughter and blessings from family and friends.", icon: "sun" },
+    { name: "Mehndi Ceremony", note: "An evening of henna, music and celebration.", icon: "leaf" },
+    { name: "Wedding Ceremony", note: "Sacred vows around the fire.", icon: "rings", useWeddingDetails: true }
   ]
 };

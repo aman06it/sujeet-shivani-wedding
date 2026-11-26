@@ -116,15 +116,6 @@ button { font: inherit; }
 .celebration::before { content: ""; position: absolute; inset: 0; opacity: .1; background: radial-gradient(circle at 80% 20%, var(--rose), transparent 28%), linear-gradient(115deg, transparent 0 48%, rgba(255,255,255,.08) 48.1% 48.3%, transparent 48.4%); }
 .section__intro--light { position: relative; }
 .section__intro--light h2 em { color: var(--gold-bright); }
-.event-grid { position: relative; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; margin-top: 4.5rem; background: rgba(227,201,135,.22); border: 1px solid rgba(227,201,135,.22); }
-.event-card { min-height: 330px; padding: 2.2rem; background: var(--wine); display: flex; flex-direction: column; justify-content: space-between; transition: background .3s ease, transform .3s ease; }
-.event-card:hover { background: var(--wine-2); transform: translateY(-5px); }
-.event-card__number { color: rgba(227,201,135,.55); font-size: .7rem; letter-spacing: .15em; }
-.event-card__icon { width: 62px; height: 62px; display: grid; place-items: center; border: 1px solid rgba(227,201,135,.28); border-radius: 50%; color: var(--gold-bright); }
-.event-card__icon svg { width: 30px; fill: none; stroke: currentColor; stroke-width: 1.4; }
-.event-card h3 { margin: 0 0 .35rem; font-family: var(--serif); font-size: 2.2rem; font-weight: 400; }
-.event-card p { margin: 0; color: rgba(247,241,232,.55); font-size: .85rem; }
-.detail-note { position: relative; margin: 2.2rem 0 0; color: rgba(247,241,232,.46); font-size: .82rem; }
 
 .date-section { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(4rem, 9vw, 9rem); align-items: end; background: var(--blush); }
 .date-section h2 { max-width: 650px; }
@@ -196,8 +187,6 @@ footer > p:first-child { margin: 0; font-size: .78rem; letter-spacing: .12em; te
   .hero__floral { width: 45vw; opacity: .2; }
   .story, .date-section { grid-template-columns: 1fr; }
   .story { gap: 3rem; }
-  .event-grid { grid-template-columns: 1fr; }
-  .event-card { min-height: 260px; }
   .date-section { align-items: start; }
 }
 
@@ -407,18 +396,30 @@ body { background-image: var(--paper-pattern); background-size: auto, 28px 28px;
 .countdown strong { font: 700 clamp(1.25rem, 4.2vw, 2.75rem)/1.2 ui-monospace, monospace; }
 .countdown span { color: #fff7ec; font-size: clamp(.67rem, 2.5vw, .85rem); text-transform: none; letter-spacing: 0; }
 
-.event-grid { position: relative; display: grid; grid-template-columns: 1fr; gap: clamp(1.2rem, 4vw, 3rem); width: min(100%, 56rem); margin: 2.4rem auto 0; background: transparent; border: 0; text-align: left; }
-.event-grid::before { content: ""; position: absolute; inset: .75rem auto .75rem 1.2rem; width: 3px; background: linear-gradient(#681b35, #bd8d42); transform: translateX(-50%); }
-.event-row { display: grid; grid-template-columns: 2.4rem minmax(0, 1fr); align-items: start; gap: .75rem; }
-.event-marker { display: grid; place-items: center; width: 100%; aspect-ratio: 1; border-radius: 50%; background: linear-gradient(135deg, #6d203c, #d4a745); font-size: 1.3rem; }
-.event-grid .event-card { display: block; min-height: 0; padding: clamp(1rem, 3vw, 1.8rem); border: 1px solid var(--line); border-inline-start: 4px solid #7c2543; border-radius: .9rem; background: var(--card); box-shadow: var(--page-shadow); }
-.event-grid .event-card:hover { background: var(--card); transform: none; }
-.event-grid .event-card h3 { margin: 0 0 .85rem; color: var(--accent); font-size: clamp(1.55rem, 4vw, 2rem); font-weight: 700; line-height: 1.1; }
-.event-grid .event-card p, .detail-note { color: var(--soft); font-size: .94rem; }
-.event-grid .event-card p { margin-top: .4rem; }
-.event-card__date, .event-card__venue { font-weight: 700; }
-.event-card__calendar { margin-top: .9rem; width: 100%; border-color: var(--line); background: var(--paper-deep); color: var(--accent); }
-.detail-note { margin-top: 1.5rem; }
+.event-grid { --marker-size: 2.75rem; position: relative; display: grid; gap: clamp(1.65rem, 5vw, 3.75rem); width: min(100%, 56.25rem); margin: 2.75rem auto 0; padding: 0; list-style: none; text-align: left; }
+.event-grid::before { content: ""; position: absolute; inset: 0 auto 0 calc(var(--marker-size) / 2); width: 4px; background: linear-gradient(#66152e, #cea840); transform: translateX(-50%); }
+.event-row { display: grid; grid-template-columns: var(--marker-size) minmax(0, 1fr); align-items: start; gap: clamp(.75rem, 2vw, 1.25rem); }
+.event-marker { display: grid; place-items: center; width: var(--marker-size); aspect-ratio: 1; justify-self: center; border-radius: 50%; background: linear-gradient(135deg, #6d203c, #d4a745); box-shadow: 0 0 0 .35rem #f3d47a24; font-size: calc(var(--marker-size) * .48); }
+.event-row--wedding .event-marker { animation: wedding-marker-glow 2.3s ease-in-out infinite; }
+@keyframes wedding-marker-glow { 50% { box-shadow: 0 0 0 .55rem #eac54d4d; } }
+.event-card { min-width: 0; padding: clamp(1.05rem, 3vw, 1.85rem); border: 2px solid #d4af3966; border-inline-start: 5px solid #77203c; border-radius: .95rem; background: var(--card); box-shadow: 0 12px 34px #5c0f281c; transition: transform .25s ease, box-shadow .25s ease; }
+.event-row--wedding .event-card { border-color: #d4af398c; border-inline-start-color: #9b622d; }
+.event-card__header { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .55rem; margin-bottom: 1rem; }
+.event-card h3 { margin: 0; color: var(--accent); font: 700 clamp(1.25rem, 2.1vw, 1.75rem)/1.15 var(--serif); }
+.event-card__status { padding: .35rem .65rem; border-radius: 999px; background: linear-gradient(125deg, #e7c46b, #b9d7ff); color: #342235; font: 700 .77rem/1.1 ui-monospace, monospace; white-space: nowrap; }
+.event-row--wedding .event-card__status { background: linear-gradient(120deg, #691b36, #95562d); color: #fff9ec; }
+.event-card__details { display: grid; gap: .48rem; margin: 0; padding: 0; list-style: none; color: var(--soft); font-size: .94rem; }
+.event-card__details li { display: flex; align-items: baseline; gap: .4rem; }
+.event-card__date, .event-card__venue a { color: var(--accent); font-weight: 700; }
+.event-detail__icon { flex: 0 0 1.15rem; }
+.event-card__note, .detail-note { color: var(--soft); font-size: .94rem; }
+.event-card__note { margin: .75rem 0 0; }
+.event-card__calendar { margin-top: 1rem; min-height: 44px; width: 100%; border-color: var(--line); border-radius: .65rem; background: linear-gradient(125deg, #d4af3930, #7c254330); color: var(--accent); font: 600 .83rem/1.2 ui-monospace, monospace; }
+.event-card__calendar:disabled { opacity: .64; cursor: default; transform: none; }
+.detail-note { margin: 1.5rem auto 0; }
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .event-card:hover { transform: translateY(-5px); box-shadow: 0 17px 40px #5c0f282d; }
+}
 
 .venue-grid { display: grid; grid-template-columns: minmax(0, 35rem); justify-content: center; gap: 1.2rem; max-width: 58rem; }
 .venue-grid.has-two-venues { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -451,9 +452,11 @@ footer { padding: 0 1.1rem 5rem; color: var(--accent); }
 .closing-card .footer__names { font-size: clamp(2.2rem, 5.5vw, 3.7rem); color: var(--accent); }
 
 @media (min-width: 821px) {
+  .event-grid { --marker-size: 3.75rem; }
   .event-grid::before { left: 50%; }
-  .event-row { grid-template-columns: minmax(0, 1fr) 3.6rem minmax(0, 1fr); column-gap: clamp(1rem, 2.5vw, 2rem); }
-  .event-marker { grid-column: 2; grid-row: 1; font-size: 1.65rem; }
+  .event-row { grid-template-columns: minmax(0, 1fr) var(--marker-size) minmax(0, 1fr); column-gap: clamp(1.4rem, 3.4vw, 2.5rem); }
+  .event-marker { grid-column: 2; grid-row: 1; }
+  .event-row--wedding .event-marker { width: 4.45rem; font-size: 2rem; }
   .event-row:nth-child(odd) .event-card { grid-column: 3; grid-row: 1; }
   .event-row:nth-child(even) .event-card { grid-column: 1; grid-row: 1; }
 }

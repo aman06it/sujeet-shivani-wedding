@@ -52,33 +52,43 @@
   }));
 
   const eventSymbols = { sun: "💛", leaf: "🎨", rings: "💍", prayer: "🙏" };
+  function eventDetail(symbol, label, className, url) {
+    const row = element("li", className);
+    const icon = element("span", "event-detail__icon", symbol);
+    icon.setAttribute("aria-hidden", "true");
+    const text = element(url ? "a" : "span", "", label);
+    if (url) {
+      text.href = url;
+      text.target = "_blank";
+      text.rel = "noopener";
+    }
+    row.append(icon, text);
+    return row;
+  }
   $("event-grid").replaceChildren(...data.events.map((eventConfig) => {
     const event = eventConfig.useWeddingDetails ? { ...data, ...eventConfig } : eventConfig;
-    const row = element("div", "event-row reveal");
+    const confirmed = !data.detailsArePlaceholder;
+    const isWedding = Boolean(eventConfig.useWeddingDetails);
+    const row = element("li", isWedding ? "event-row event-row--wedding reveal" : "event-row reveal");
     const marker = element("span", "event-marker", eventSymbols[event.icon] || "✦");
     marker.setAttribute("aria-hidden", "true");
     const card = element("article", "event-card");
-    card.append(element("h3", "", event.name));
-    if (!data.detailsArePlaceholder) {
-      if (event.dateLong) card.append(element("p", "event-card__date", event.dateLong));
-      if (event.time) card.append(element("p", "", event.time));
-      if (event.venue) {
-        const venue = element(event.mapsUrl ? "a" : "p", "event-card__venue", event.venue);
-        if (event.mapsUrl) {
-          venue.href = event.mapsUrl;
-          venue.target = "_blank";
-          venue.rel = "noopener";
-        }
-        card.append(venue);
-      }
-    }
-    card.append(element("p", "", event.note));
-    if (!data.detailsArePlaceholder && event.dateISO && Number.isFinite(Date.parse(event.dateISO))) {
-      const button = element("button", "button event-card__calendar", "Add to calendar");
-      button.type = "button";
+    const header = element("div", "event-card__header");
+    const status = isWedding ? "Main Event" : (confirmed && event.dayLabel) || "Pre-wedding";
+    header.append(element("h3", "", event.name), element("span", "event-card__status", status));
+    const details = element("ul", "event-card__details");
+    details.append(
+      eventDetail("📅", (confirmed && event.dateLong) || "Date to be announced", "event-card__date"),
+      eventDetail("⏰", (confirmed && event.time) || "Time to be announced", ""),
+      eventDetail("📍", (confirmed && event.venue) || "Venue to be announced", "event-card__venue", confirmed && event.venue && event.mapsUrl)
+    );
+    const button = element("button", "button event-card__calendar", "Add to Calendar");
+    button.type = "button";
+    button.disabled = !confirmed || !Number.isFinite(Date.parse(event.dateISO));
+    if (!button.disabled) {
       button.addEventListener("click", () => downloadCalendar(event.dateISO, event.name, event.venue || "", event.endISO));
-      card.append(button);
     }
+    card.append(header, details, element("p", "event-card__note", event.note), button);
     row.append(marker, card);
     return row;
   }));
