@@ -358,7 +358,7 @@ body { background-image: var(--paper-pattern); background-size: auto, 28px 28px;
 .couple-card .eyebrow { margin: 0; }
 .couple-card h3, .journey-card h3, .venue__card h3 { margin: .45rem 0 0; color: var(--accent); font: 700 clamp(1.8rem, 4vw, 2.6rem)/1.1 var(--serif); overflow-wrap: anywhere; }
 .couple-card__details { padding: 0; list-style: none; margin: 1rem 0 0; }
-.couple-card__details li, .journey-card__message, #rsvp-note { margin: .55rem 0; padding: .8rem; border-radius: .65rem; background: var(--paper-deep); color: var(--soft); }
+.couple-card__details li, .journey-card__message { margin: .55rem 0; padding: .8rem; border-radius: .65rem; background: var(--paper-deep); color: var(--soft); }
 .couple-grid__join { align-self: center; color: var(--accent); font-size: .88rem; }
 .couple-grid__join span { display: block; font-size: 2.7rem; line-height: 1; }
 .couple-grid__join p { margin: .35rem 0 0; }
@@ -425,14 +425,24 @@ body { background-image: var(--paper-pattern); background-size: auto, 28px 28px;
 .rsvp__inner { max-width: 50rem; margin: 2.4rem auto 0; padding: clamp(1.5rem, 5vw, 3rem); border-radius: 1rem; background: var(--card); }
 .rsvp__inner > .rsvp__status { margin: 0 auto .55rem; color: var(--accent); font-size: clamp(1.1rem, 3vw, 1.35rem); }
 .rsvp__inner > #rsvp-copy { margin: 0 auto; }
-.rsvp-stats:not([hidden]), .rsvp-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: .75rem; margin-top: 1.25rem; }
-.rsvp-stat { display: grid; gap: .3rem; min-width: 8rem; padding: .85rem; border-radius: .65rem; background: var(--paper-deep); }
-.rsvp-stat strong { color: var(--accent); font-size: 1.6rem; }
+.rsvp-stats { display: grid; grid-template-columns: repeat(2, minmax(0, 9.5rem)); justify-content: center; gap: clamp(.65rem, 3vw, 1.85rem); margin: 1.75rem auto 0; }
+.rsvp-stat { display: grid; gap: .4rem; place-items: center; min-width: 0; padding: clamp(.9rem, 2.3vw, 1.4rem) .45rem; border-radius: .9rem; background: var(--paper-deep); }
+.rsvp-stat strong { color: var(--accent); font: 700 clamp(1.55rem, 4.5vw, 2.5rem)/1.1 ui-monospace, monospace; overflow-wrap: anywhere; }
 .rsvp-stat span { color: var(--soft); font-size: .85rem; }
-.rsvp-whatsapp { color: #fff; background: #116543; }
-.rsvp-call { color: #fff; background: #2054a5; }
+.rsvp-stat .rsvp-stat__icon { font-size: 1.55rem; }
+.rsvp-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: .8rem; margin: 1.65rem 0; }
+.rsvp-actions .button { gap: .45rem; min-width: min(100%, 10rem); }
+.rsvp-whatsapp { color: #fff; background: linear-gradient(120deg, #09703f, #087d68); }
+.rsvp-call { color: #fff; background: linear-gradient(120deg, #285db1, #153f88); }
 .rsvp-actions .button:disabled, .rsvp-actions .button[aria-disabled="true"] { border-color: var(--line); background: var(--paper-deep); color: var(--soft); cursor: default; transform: none; }
-#rsvp-note { margin-top: 1.15rem; }
+.rsvp-contact p { margin: 0 0 .2rem; color: var(--soft); font-size: .95rem; }
+.rsvp-contact__number { color: var(--accent); font: 700 .95rem/1.4 ui-monospace, monospace; overflow-wrap: anywhere; }
+.rsvp-friends { margin-top: 1.7rem; padding: clamp(1rem, 3.8vw, 1.65rem); border: 1px solid var(--line); border-radius: .85rem; background: var(--paper-deep); }
+.rsvp-friends h3 { margin: 0 0 .55rem; color: var(--accent); font: 700 clamp(1.2rem, 3.4vw, 1.5rem)/1.25 var(--serif); }
+#rsvp-note { margin: 0; color: var(--soft); font-size: .94rem; }
+#rsvp-friends-list:not([hidden]) { display: grid; gap: .6rem; padding: 0; margin: .85rem 0 0; list-style: none; }
+.rsvp-friend { display: flex; flex-wrap: wrap; justify-content: center; gap: .25rem .65rem; padding: .7rem; border-radius: .55rem; background: var(--card); font-size: .9rem; }
+.rsvp-friend a { color: var(--accent); overflow-wrap: anywhere; }
 .divine-card { min-height: 11rem; padding: 1.15rem .7rem; color: var(--accent); cursor: pointer; transition: transform .25s ease, border-color .25s ease; }
 .divine-card:hover, .divine-card[aria-pressed="true"] { border-color: #c39845; }
 .divine-card:hover { transform: translateY(-3px); }

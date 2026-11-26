@@ -131,28 +131,49 @@
   if (rsvpNumber) {
     const rsvp = $("rsvp-button");
     const call = $("rsvp-call");
+    const phoneLink = $("rsvp-phone");
     set("rsvp-status", "कृपया अपनी उपस्थिति की पुष्टि करें");
-    set("rsvp-copy", data.rsvpBy ? `Kindly reply by ${data.rsvpBy}.` : "Please let us know if you can join us.");
+    if (data.rsvpBy) {
+      $("rsvp-copy").replaceChildren("Please confirm your attendance by ", element("strong", "", data.rsvpBy), ".");
+    } else {
+      set("rsvp-copy", "Please let us know if you can join us.");
+    }
     rsvp.disabled = false;
     call.href = `tel:${data.rsvpPhone.startsWith("+") ? "+" : ""}${rsvpNumber}`;
     call.removeAttribute("aria-disabled");
+    set("rsvp-contact-label", data.rsvpContactLabel || "Family contact");
+    phoneLink.href = call.href;
+    phoneLink.textContent = data.rsvpPhone;
     rsvp.addEventListener("click", () => {
       const message = encodeURIComponent(`Hello! I am responding to ${data.couple.groom} & ${data.couple.bride}'s wedding invitation.`);
       location.href = `https://wa.me/${rsvpNumber}?text=${message}`;
     });
   }
-  if (data.rsvpNote) {
-    set("rsvp-note", data.rsvpNote);
-    $("rsvp-note").hidden = false;
-  }
-  for (const [key, label] of [["expected", "Guests expected"], ["confirmed", "Confirmed"]]) {
+  for (const key of ["expected", "confirmed"]) {
     const count = data.rsvpStats?.[key];
     if (!Number.isInteger(count) || count < 0) continue;
-    const stat = element("div", "rsvp-stat");
-    stat.append(element("strong", "", String(count)), element("span", "", label));
-    $("rsvp-stats").append(stat);
-    $("rsvp-stats").hidden = false;
+    const display = $(`rsvp-${key}`);
+    display.textContent = new Intl.NumberFormat("en-IN").format(count);
+    display.removeAttribute("aria-label");
   }
+  const friendsList = $("rsvp-friends-list");
+  for (const { group, contacts } of data.rsvpFriends || []) {
+    const row = element("li", "rsvp-friend");
+    for (const { name, phone } of contacts || []) {
+      const digits = (phone || "").replace(/\D/g, "");
+      if (!name || !digits) continue;
+      const item = element("a", "", `${name} (${phone})`);
+      item.href = `tel:${phone.startsWith("+") ? "+" : ""}${digits}`;
+      row.append(item);
+    }
+    if (row.childElementCount) {
+      if (group) row.prepend(element("strong", "", group));
+      friendsList.append(row);
+    }
+  }
+  friendsList.hidden = !friendsList.childElementCount;
+  const friendNote = data.rsvpNote || (!friendsList.hidden ? "For travel and coordination, reach out to the contacts below." : "");
+  if (friendNote) set("rsvp-note", friendNote);
 
   $("share-button").addEventListener("click", async () => {
     const shareData = { title: document.title, text: `${data.couple.groom} & ${data.couple.bride} invite you to celebrate their wedding.`, url: location.href };

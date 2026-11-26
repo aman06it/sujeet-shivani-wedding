@@ -18,9 +18,11 @@ window.WEDDING = {
   mapsUrl: "",
   preWeddingVenue: null, // { name, address, mapsUrl }
   rsvpPhone: "",
-  rsvpBy: "Two weeks before the celebration",
+  rsvpContactLabel: "",
+  rsvpBy: "",
   rsvpStats: null, // { expected, confirmed }
   rsvpNote: "",
+  rsvpFriends: [], // [{ group, contacts: [{ name, phone }] }]
   journey: [
     { label: "Our families", message: "Our families join us in welcoming you to the celebration." },
     { label: "The ceremonies", message: "Haldi and mehndi bring together family and friends before the wedding." },

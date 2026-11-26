@@ -12,8 +12,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Tiro+Devanagari+Sanskrit&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=reference-cursor">
-  <script src="wedding-data.js?v=celebration-timeline"></script>
+  <link rel="stylesheet" href="styles.css?v=rsvp-details">
+  <script src="wedding-data.js?v=rsvp-details"></script>
 </head>
 <body>
   <div class="grain" aria-hidden="true"></div>
@@ -211,12 +211,23 @@
       <div class="rsvp__inner">
         <p class="rsvp__status" id="rsvp-status" lang="hi">पुष्टि की जानकारी जल्द साझा की जाएगी</p>
         <p id="rsvp-copy">We’ll share the RSVP contact here once it’s confirmed.</p>
-        <div class="rsvp-stats" id="rsvp-stats" hidden></div>
-        <div class="rsvp-actions">
-          <button type="button" class="button rsvp-whatsapp" id="rsvp-button" disabled>WhatsApp RSVP</button>
-          <a class="button rsvp-call" id="rsvp-call" role="link" aria-disabled="true">Call to confirm</a>
+        <div class="rsvp-stats">
+          <div class="rsvp-stat"><span class="rsvp-stat__icon" aria-hidden="true">👥</span><strong id="rsvp-expected" aria-label="Not yet available">—</strong><span>Guests expected</span></div>
+          <div class="rsvp-stat"><span class="rsvp-stat__icon" aria-hidden="true">✅</span><strong id="rsvp-confirmed" aria-label="Not yet available">—</strong><span>Confirmed</span></div>
         </div>
-        <p id="rsvp-note" hidden></p>
+        <div class="rsvp-actions">
+          <button type="button" class="button rsvp-whatsapp" id="rsvp-button" disabled><span aria-hidden="true">📱</span> WhatsApp RSVP</button>
+          <a class="button rsvp-call" id="rsvp-call" role="link" aria-disabled="true"><span aria-hidden="true">📞</span> Call to confirm</a>
+        </div>
+        <div class="rsvp-contact">
+          <p id="rsvp-contact-label">Family contact</p>
+          <a id="rsvp-phone" class="rsvp-contact__number">To be announced</a>
+        </div>
+        <div class="rsvp-friends">
+          <h3><span aria-hidden="true">📌</span> A Note for Friends</h3>
+          <p id="rsvp-note">Travel and coordination details will be shared here.</p>
+          <ul id="rsvp-friends-list" hidden></ul>
+        </div>
       </div>
     </section>
     <section class="wedding-blessing section" aria-labelledby="blessing-title">
@@ -251,6 +262,6 @@
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script src="script.js?v=reference-cursor"></script>
+  <script src="script.js?v=rsvp-details"></script>
 </body>
 </html>
