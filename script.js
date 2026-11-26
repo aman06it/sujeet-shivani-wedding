@@ -147,14 +147,17 @@
     const ambient = $("ambient-motifs");
     const effects = $("pointer-effects");
     const portrait = $("blessing-portrait");
+    const cover = $("opening");
     const motifs = ["✿", "✧", "❋", "◈", "ॐ"];
     const trailInterval = 20;
     let lastPoint;
+    let lastBurst = -Infinity;
 
     function refreshAmbientMotifs() {
       ambient.replaceChildren();
       effects.replaceChildren();
       lastPoint = undefined;
+      lastBurst = -Infinity;
       if (motionPreference.matches) return;
 
       for (let i = 0; i < 24; i++) {
@@ -193,34 +196,41 @@
     function burstHearts(x, y) {
       const ring = document.createElement("span");
       ring.className = "pointer-burst";
-      const count = 20;
-      const spread = Math.min(92, innerWidth * .24);
+      const count = 16;
+      const stagger = 24;
+      const flightTime = 1450;
+      const spread = Math.min(148, innerWidth * .36);
+      const symbols = ["💗", "💖", "💕", "💝", "💓"];
+      ring.style.setProperty("--flight-time", `${flightTime}ms`);
+      ring.style.setProperty("--burst-life", `${flightTime + (count - 1) * stagger + 40}ms`);
       for (let i = 0; i < count; i++) {
-        const progress = i / count;
-        const angle = progress * Math.PI * 1.87;
-        const distance = spread * (.86 + .18 * progress + Math.random() * .08);
+        const angle = (i / count) * Math.PI * 2;
+        const distance = spread * (.78 + Math.random() * .24);
         const heart = document.createElement("span");
-        heart.textContent = i % 6 === 0 ? "💝" : i % 3 === 0 ? "💖" : "💗";
+        heart.textContent = symbols[Math.floor(Math.random() * symbols.length)];
         heart.style.setProperty("--heart-x", `${Math.cos(angle) * distance}px`);
         heart.style.setProperty("--heart-y", `${Math.sin(angle) * distance}px`);
-        heart.style.setProperty("--heart-tilt", `${(angle * 180) / Math.PI}deg`);
-        heart.style.setProperty("--heart-size", `${15 + Math.random() * 11}px`);
-        heart.style.setProperty("--heart-delay", `${Math.round(progress * 135)}ms`);
+        heart.style.setProperty("--heart-size", `${21 + Math.random() * 5}px`);
+        heart.style.setProperty("--heart-delay", `${i * stagger}ms`);
         ring.append(heart);
       }
       addEffect(ring, x, y);
     }
 
     document.querySelector("main").addEventListener("pointermove", trail, { passive: true });
-    document.querySelector("main").addEventListener("click", (event) => {
-      if (motionPreference.matches || document.body.classList.contains("locked")) return;
-      if (!event.detail && portrait.contains(event.target)) {
+    document.addEventListener("click", (event) => {
+      if (motionPreference.matches || document.body.classList.contains("locked") || cover.contains(event.target)) return;
+      const fromPointer = event.detail > 0;
+      if (!fromPointer && !portrait.contains(event.target)) return;
+      if (event.timeStamp - lastBurst < 100) return;
+      lastBurst = event.timeStamp;
+      if (fromPointer) {
+        burstHearts(event.clientX, event.clientY);
+      } else {
         const rect = portrait.getBoundingClientRect();
         burstHearts(rect.left + rect.width / 2, rect.top + rect.height / 2);
-      } else if (event.detail && (portrait.contains(event.target) || !event.target.closest("a, button, input, select, textarea"))) {
-        burstHearts(event.clientX, event.clientY);
       }
-    });
+    }, { passive: true });
     portrait.addEventListener("click", () => {
       if (motionPreference.matches) {
         toast("Hearts sent");
