@@ -12,8 +12,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600&family=Manrope:wght@400;500;600;700&family=Tiro+Devanagari+Sanskrit&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=fullscreen-blessing">
-  <script src="wedding-data.js"></script>
+  <link rel="stylesheet" href="styles.css?v=reference-pages">
+  <script src="wedding-data.js?v=reference-pages"></script>
 </head>
 <body>
   <div class="grain" aria-hidden="true"></div>
@@ -97,72 +97,72 @@
     </section>
 
     <section class="hero" id="home">
-      <div class="hero__orb hero__orb--one"></div>
-      <div class="hero__orb hero__orb--two"></div>
-      <div class="hero__floral hero__floral--left" aria-hidden="true">
-        <svg viewBox="0 0 300 600"><path d="M42 604C32 468 54 354 147 248c44-50 73-120 76-205M98 419c-39-6-67-25-81-60 38-4 69 10 94 40M141 286c-11-44-1-82 30-112 20 38 16 75-12 111M191 171c-27-23-40-51-37-86 34 13 52 38 55 74M64 506c40-2 72 12 97 43-38 14-74 5-107-27"/><circle cx="224" cy="42" r="12"/></svg>
-      </div>
-      <div class="hero__floral hero__floral--right" aria-hidden="true">
-        <svg viewBox="0 0 300 600"><path d="M42 604C32 468 54 354 147 248c44-50 73-120 76-205M98 419c-39-6-67-25-81-60 38-4 69 10 94 40M141 286c-11-44-1-82 30-112 20 38 16 75-12 111M191 171c-27-23-40-51-37-86 34 13 52 38 55 74M64 506c40-2 72 12 97 43-38 14-74 5-107-27"/><circle cx="224" cy="42" r="12"/></svg>
-      </div>
       <div class="hero__content reveal">
+        <div class="invitation-flourish" aria-hidden="true">✦　🪷　✦</div>
         <p class="invitation-card__blessing" lang="sa">॥ श्री गणेशाय नमः ॥</p>
-        <p class="invitation-card__hindi" lang="hi">शुभ विवाह में आपका सादर आमंत्रण है</p>
-        <p class="eyebrow" id="hero-greeting">Together with their families</p>
+        <p class="invitation-card__hindi" lang="hi">परिवार के आशीर्वाद के साथ, हम आपको अपने विवाह में सादर आमंत्रित करते हैं।</p>
+        <p class="hero__invitation"><span id="hero-greeting">Together with their families</span>, <span id="hero-invitation">invite you to celebrate the wedding of</span></p>
         <div class="hero__names">
-          <h1 id="invitation-title" tabindex="-1"><span id="hero-bride">Shivani</span><i>&</i><span id="hero-groom">Sujeet</span></h1>
+          <h1 id="invitation-title" tabindex="-1"><span id="hero-bride">Shivani</span><span class="hero__union"><i>&amp;</i><span aria-hidden="true">💕</span></span><span id="hero-groom">Sujeet</span></h1>
         </div>
-        <div class="ornament" aria-hidden="true"><span></span><b>✦</b><span></span></div>
-        <p class="hero__invitation" id="hero-invitation">request the pleasure of your company as they begin their forever.</p>
+        <p class="invitation-card__hindi" lang="hi">दो परिवार, एक नई शुरुआत</p>
+        <p class="invitation-card__message">Two families come together to celebrate a new beginning.</p>
         <div class="date-lockup" id="date-lockup">
           <span class="date-lockup__top" id="date-kicker">Save the date</span>
           <strong id="date-long">Details to be announced</strong>
           <span id="date-location">Venue details coming soon</span>
         </div>
-        <a class="button button--solid invitation-link" href="#celebration">View the ceremonies</a>
+        <div class="invitation-flourish" aria-hidden="true">🪷　✦　🪷</div>
       </div>
     </section>
 
     <section class="story section" id="story">
-      <div class="section__intro reveal">
-        <h2>The <em>couple</em></h2>
+      <div class="section__intro page-heading reveal">
+        <h2><span aria-hidden="true">🪷</span> The Couple <span aria-hidden="true">🪷</span></h2>
         <p class="section-subtitle" lang="hi">वर एवं वधू</p>
       </div>
       <div class="couple-grid">
-        <article class="couple-card reveal"><p class="eyebrow">The bride</p><h3 id="signature-bride">Shivani</h3></article>
-        <span class="couple-grid__join" aria-hidden="true">♥</span>
-        <article class="couple-card reveal"><p class="eyebrow">The groom</p><h3 id="signature-groom">Sujeet</h3></article>
+        <article class="couple-card reveal"><p class="eyebrow">The bride</p><h3 id="signature-bride">Shivani</h3><ul class="couple-card__details" id="bride-details" hidden></ul></article>
+        <div class="couple-grid__join"><span aria-hidden="true">💕</span><p lang="hi">विवाह संस्कार</p><p>Seven vows</p></div>
+        <article class="couple-card reveal"><p class="eyebrow">The groom</p><h3 id="signature-groom">Sujeet</h3><ul class="couple-card__details" id="groom-details" hidden></ul></article>
+      </div>
+      <div class="journey-card reveal">
+        <h3><span aria-hidden="true">💕</span> Our Journey</h3>
+        <div class="journey-card__choices" id="journey-steps" role="group" aria-label="Wedding journey"></div>
+        <p class="journey-card__message" id="journey-message" aria-live="polite"></p>
       </div>
     </section>
 
     <section class="rituals section" id="rituals" aria-labelledby="rituals-title">
-      <div class="section__intro reveal">
-        <h2 id="rituals-title">Sacred wedding <em>rituals</em></h2>
+      <div class="section__intro page-heading reveal">
+        <h2 id="rituals-title"><span aria-hidden="true">🕉️</span> Sacred Hindu Rituals <span aria-hidden="true">🕉️</span></h2>
         <p class="section-subtitle" lang="hi">विवाह संस्कार</p>
       </div>
       <div class="ritual-grid">
-        <article class="ritual-card reveal"><span class="ritual-card__icon" aria-hidden="true">☀</span><h3>Haldi</h3><p lang="hi">हल्दी की रस्म</p><p>Family and friends apply turmeric paste and offer their blessings.</p></article>
-        <article class="ritual-card reveal"><span class="ritual-card__icon" aria-hidden="true">❋</span><h3>Mehndi</h3><p lang="hi">मेहँदी की रस्म</p><p>Intricate henna designs mark an evening of music and celebration.</p></article>
-        <article class="ritual-card reveal"><span class="ritual-card__icon" aria-hidden="true">✦</span><h3>Saat Phere</h3><p lang="hi">सात फेरे</p><p>The couple takes seven rounds around the sacred fire.</p></article>
+        <article class="ritual-card reveal"><span class="ritual-card__icon" aria-hidden="true">💛</span><h3>Haldi</h3><p lang="hi">हल्दी की रस्म</p><p>Family and friends apply turmeric paste and offer their blessings.</p></article>
+        <article class="ritual-card reveal"><span class="ritual-card__icon" aria-hidden="true">🙏</span><h3>Pooja</h3><p lang="hi">पूजा एवं प्रार्थना</p><p>Prayers ask for blessings as the couple begins married life.</p></article>
+        <article class="ritual-card reveal"><span class="ritual-card__icon" aria-hidden="true">🎨</span><h3>Mehndi</h3><p lang="hi">मेहँदी की रस्म</p><p>Intricate henna designs mark an evening of music and celebration.</p></article>
+        <article class="ritual-card reveal"><span class="ritual-card__icon" aria-hidden="true">💍</span><h3>Saat Phere</h3><p lang="hi">सात फेरे</p><p>The couple takes seven rounds around the sacred fire.</p></article>
       </div>
     </section>
 
     <section class="date-section section" aria-labelledby="countdown-heading">
-      <div class="date-section__copy reveal">
-        <h2 id="countdown-heading">Mark your <em>calendar</em></h2>
-        <p id="countdown-note">The countdown begins as soon as our date is announced.</p>
-      </div>
-      <div class="countdown reveal" id="countdown" aria-live="polite">
-        <div><strong id="days">—</strong><span>Days</span></div>
-        <div><strong id="hours">—</strong><span>Hours</span></div>
-        <div><strong id="minutes">—</strong><span>Minutes</span></div>
-        <div><strong id="seconds">—</strong><span>Seconds</span></div>
+      <div class="calendar-card reveal">
+        <h2 id="countdown-heading"><span aria-hidden="true">📅</span> Mark Your Calendar</h2>
+        <p class="calendar-card__date" id="calendar-date">Date to be announced</p>
+        <p id="countdown-note">The countdown will begin once we confirm the wedding date.</p>
+        <div class="countdown" id="countdown" role="timer" aria-live="off">
+          <div><strong id="days">—</strong><span>Days</span></div>
+          <div><strong id="hours">—</strong><span>Hours</span></div>
+          <div><strong id="minutes">—</strong><span>Minutes</span></div>
+          <div><strong id="seconds">—</strong><span>Seconds</span></div>
+        </div>
       </div>
     </section>
 
     <section class="celebration section" id="celebration">
-      <div class="section__intro reveal">
-        <h2>Wedding <em>schedule</em></h2>
+      <div class="section__intro page-heading reveal">
+        <h2><span aria-hidden="true">📋</span> Celebration Schedule <span aria-hidden="true">📋</span></h2>
         <p class="section-subtitle" lang="hi">विवाह कार्यक्रम</p>
       </div>
       <div class="event-grid" id="event-grid"></div>
@@ -170,46 +170,80 @@
     </section>
 
     <section class="venue section" id="venue">
-      <div class="venue__card reveal">
-        <p class="eyebrow">Meet us here</p>
-        <h2 id="venue-name">Venue to be announced</h2>
-        <p id="venue-address">We are putting the final touches on our celebration.</p>
-        <div class="venue__rule"></div>
-        <p class="venue__time" id="venue-time">Date & time details coming soon</p>
-        <div class="venue__actions">
-          <a class="button button--outline is-hidden" id="directions-button" href="#" target="_blank" rel="noopener">Get directions</a>
-          <button class="button button--solid is-hidden" id="calendar-button">Add to calendar</button>
-          <button class="button button--solid" id="notify-button">Keep me posted</button>
-        </div>
+      <div class="section__intro page-heading reveal">
+        <h2><span aria-hidden="true">📍</span> Venue <span aria-hidden="true">📍</span></h2>
+        <p class="section-subtitle" lang="hi">विवाह स्थल</p>
+      </div>
+      <div class="venue-grid" id="venue-grid">
+        <article class="venue__card reveal is-hidden" id="pre-wedding-venue">
+          <p class="eyebrow">Pre-wedding ceremonies</p>
+          <h3 id="pre-wedding-name"></h3>
+          <p id="pre-wedding-address"></p>
+          <div class="venue__actions">
+            <a class="button button--outline is-hidden" id="pre-wedding-map" href="#" target="_blank" rel="noopener">Get directions</a>
+          </div>
+        </article>
+        <article class="venue__card reveal">
+          <p class="eyebrow">Wedding ceremony</p>
+          <h3 id="venue-name">Venue to be announced</h3>
+          <p id="venue-address">We are putting the final touches on our celebration.</p>
+          <div class="venue__rule"></div>
+          <p class="venue__time" id="venue-time">Date & time details coming soon</p>
+          <div class="venue__actions is-hidden" id="main-venue-actions">
+            <a class="button button--outline is-hidden" id="directions-button" href="#" target="_blank" rel="noopener">Get directions</a>
+            <button class="button button--solid is-hidden" id="calendar-button">Add to calendar</button>
+          </div>
+        </article>
       </div>
     </section>
 
     <section class="rsvp section" id="rsvp">
-      <div class="rsvp__inner reveal">
-        <h2>Confirm your <em>presence</em></h2>
+      <div class="section__intro page-heading reveal">
+        <h2><span aria-hidden="true">✉️</span> Confirm Your Presence <span aria-hidden="true">✉️</span></h2>
         <p class="section-subtitle" lang="hi">आपकी उपस्थिति सादर वांछित है</p>
+      </div>
+      <div class="rsvp__inner reveal">
         <p id="rsvp-copy">Formal RSVP details will be shared with the celebration schedule.</p>
-        <button class="button button--gold is-hidden" id="rsvp-button">RSVP on WhatsApp</button>
+        <div class="rsvp-stats" id="rsvp-stats" hidden></div>
+        <div class="rsvp-actions is-hidden" id="rsvp-actions">
+          <button class="button rsvp-whatsapp" id="rsvp-button">WhatsApp RSVP</button>
+          <a class="button rsvp-call" id="rsvp-call">Call to confirm</a>
+        </div>
+        <p id="rsvp-note" hidden></p>
       </div>
     </section>
     <section class="wedding-blessing section" aria-labelledby="blessing-title">
+      <div class="section__intro page-heading reveal">
+        <h2 id="blessing-title"><span aria-hidden="true">🙏</span> Divine Blessings <span aria-hidden="true">🙏</span></h2>
+      </div>
+      <div class="divine-grid reveal" id="divine-blessings" role="group" aria-label="Choose a blessing">
+        <button type="button" class="divine-card" data-blessing="May Lord Ganesha clear the path ahead." aria-pressed="false"><span aria-hidden="true">🕉️</span><strong>Lord Ganesha</strong><em>New beginnings</em></button>
+        <button type="button" class="divine-card" data-blessing="May Goddess Lakshmi bless your home with abundance." aria-pressed="false"><span aria-hidden="true">🪷</span><strong>Goddess Lakshmi</strong><em>Prosperity</em></button>
+        <button type="button" class="divine-card" data-blessing="May Lord Shiva bless your marriage with steadiness and grace." aria-pressed="false"><span aria-hidden="true">🔱</span><strong>Lord Shiva</strong><em>Harmony</em></button>
+        <button type="button" class="divine-card" data-blessing="May Lord Krishna fill your life together with love and joy." aria-pressed="false"><span aria-hidden="true">🦚</span><strong>Lord Krishna</strong><em>Love and devotion</em></button>
+      </div>
       <div class="blessing-card reveal">
-        <p class="eyebrow" id="blessing-title">A wedding blessing</p>
         <blockquote lang="sa">समञ्जन्तु विश्वे देवाः समापो हृदयानि नौ ।<br>सं मातरिश्वा सं धाता समु देष्ट्री दधातु नौ ॥</blockquote>
-        <p>May the divine unite our hearts.</p>
+        <p id="divine-message" aria-live="polite">May the divine unite our hearts.</p>
         <cite>Rigveda 10.85.47 · Vivaha Sukta</cite>
       </div>
     </section>
   </main>
 
   <footer>
-    <p>We cannot wait to celebrate with you.</p>
-    <div class="footer__names"><span id="footer-bride">Shivani</span> <i>&</i> <span id="footer-groom">Sujeet</span></div>
+    <div class="closing-card">
+      <span class="invitation-flourish" lang="sa" aria-hidden="true">ॐ</span>
+      <p class="closing-card__wish" lang="hi">हमें आपके आशीर्वाद की कामना है</p>
+      <p>Your presence and blessings would mean so much to us as we begin our married life.</p>
+      <p>With love,</p>
+      <div class="footer__names"><span id="footer-bride">Shivani</span> <i>&amp;</i> <span id="footer-groom">Sujeet</span></div>
+      <p><span lang="sa">सर्वे भवन्तु सुखिनः</span> · May all be happy</p>
+    </div>
     <p class="footer__small">Made with love · <span id="current-year"></span> · <a href="https://pixabay.com/music/wedding-wedding-invitation-421393/">Music by sahilmadan</a></p>
   </footer>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script src="script.js?v=fullscreen-blessing"></script>
+  <script src="script.js?v=reference-pages"></script>
 </body>
 </html>

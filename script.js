@@ -19,50 +19,128 @@
     $("guest-greeting").hidden = false;
   }
 
-  const icon = {
-    sun: '<svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="7"/><path d="M20 4v6m0 20v6M4 20h6m20 0h6M8.7 8.7l4.2 4.2m14.2 14.2 4.2 4.2M31.3 8.7l-4.2 4.2M12.9 27.1l-4.2 4.2"/></svg>',
-    leaf: '<svg viewBox="0 0 40 40" aria-hidden="true"><path d="M8 33c8-13 14-20 25-26-1 15-9 24-25 26Z"/><path d="M9 32c7-6 13-11 21-20M18 23l-1-7m6 2 7 1"/></svg>',
-    rings: '<svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="15.5" cy="22.5" r="10"/><circle cx="24.5" cy="22.5" r="10"/><path d="m20 7 3 5h-6l3-5Z"/></svg>'
-  };
+  function element(tag, className, label) {
+    const node = document.createElement(tag);
+    if (className) node.className = className;
+    if (label) node.textContent = label;
+    return node;
+  }
 
-  $("event-grid").innerHTML = data.events.map((event) => `
-    <article class="event-card reveal">
-      <div class="event-card__icon">${icon[event.icon] || icon.sun}</div>
-      <div><h3>${event.name}</h3><p>${event.note}</p></div>
-    </article>`).join("");
+  ["bride", "groom"].forEach((role) => {
+    const details = data.couple[`${role}Details`] || [];
+    const list = $(`${role}-details`);
+    list.replaceChildren(...details.map((detail) => element("li", "", detail)));
+    list.hidden = !details.length;
+  });
+
+  const journeyChoices = (data.journey || []).map((stage) => element("button", "journey-choice", stage.label));
+  function selectJourney(index) {
+    journeyChoices.forEach((button, i) => button.setAttribute("aria-pressed", i === index));
+    set("journey-message", data.journey[index].message);
+  }
+  journeyChoices.forEach((button, i) => {
+    button.type = "button";
+    button.addEventListener("click", () => selectJourney(i));
+  });
+  $("journey-steps").replaceChildren(...journeyChoices);
+  if (journeyChoices.length) selectJourney(0);
+
+  const divineCards = [...$("divine-blessings").querySelectorAll("button")];
+  divineCards.forEach((button) => button.addEventListener("click", () => {
+    divineCards.forEach((card) => card.setAttribute("aria-pressed", card === button));
+    set("divine-message", button.dataset.blessing);
+  }));
+
+  const eventSymbols = { sun: "💛", leaf: "🎨", rings: "💍", prayer: "🙏" };
+  $("event-grid").replaceChildren(...data.events.map((eventConfig) => {
+    const event = eventConfig.useWeddingDetails ? { ...data, ...eventConfig } : eventConfig;
+    const row = element("div", "event-row reveal");
+    const marker = element("span", "event-marker", eventSymbols[event.icon] || "✦");
+    marker.setAttribute("aria-hidden", "true");
+    const card = element("article", "event-card");
+    card.append(element("h3", "", event.name));
+    if (!data.detailsArePlaceholder) {
+      if (event.dateLong) card.append(element("p", "event-card__date", event.dateLong));
+      if (event.time) card.append(element("p", "", event.time));
+      if (event.venue) {
+        const venue = element(event.mapsUrl ? "a" : "p", "event-card__venue", event.venue);
+        if (event.mapsUrl) {
+          venue.href = event.mapsUrl;
+          venue.target = "_blank";
+          venue.rel = "noopener";
+        }
+        card.append(venue);
+      }
+    }
+    card.append(element("p", "", event.note));
+    if (!data.detailsArePlaceholder && event.dateISO && Number.isFinite(Date.parse(event.dateISO))) {
+      const button = element("button", "button event-card__calendar", "Add to calendar");
+      button.type = "button";
+      button.addEventListener("click", () => downloadCalendar(event.dateISO, event.name, event.venue || "", event.endISO));
+      card.append(button);
+    }
+    row.append(marker, card);
+    return row;
+  }));
 
   if (!data.detailsArePlaceholder) {
     set("date-kicker", "Save the date");
     set("date-long", data.dateLong);
+    set("calendar-date", data.dateLong);
     set("date-location", `${data.venue} · ${data.address}`);
     set("venue-name", data.venue);
     set("venue-address", data.address);
     set("venue-time", `${data.dateLong} · ${data.time}`);
     set("detail-note", `Celebration details for ${data.dateLong}.`);
-    $("calendar-button").classList.remove("is-hidden");
-    $("notify-button").classList.add("is-hidden");
+    const hasWeddingDate = Number.isFinite(Date.parse(data.dateISO));
+    $("calendar-button").classList.toggle("is-hidden", !hasWeddingDate);
+    $("main-venue-actions").classList.toggle("is-hidden", !hasWeddingDate && !data.mapsUrl);
     if (data.mapsUrl) {
       $("directions-button").href = data.mapsUrl;
       $("directions-button").classList.remove("is-hidden");
     }
-    startCountdown();
+    if (data.preWeddingVenue?.name) {
+      const { name, address, mapsUrl } = data.preWeddingVenue;
+      set("pre-wedding-name", name);
+      set("pre-wedding-address", address || "");
+      $("pre-wedding-venue").classList.remove("is-hidden");
+      $("venue-grid").classList.add("has-two-venues");
+      if (mapsUrl) {
+        $("pre-wedding-map").href = mapsUrl;
+        $("pre-wedding-map").classList.remove("is-hidden");
+      }
+    }
+    if (hasWeddingDate) startCountdown();
   } else {
     set("date-kicker", "A celebration is coming");
     set("date-long", "Date to be announced");
     set("date-location", "Venue details coming soon");
   }
 
-  if (data.rsvpPhone) {
+  const rsvpNumber = (data.rsvpPhone || "").replace(/\D/g, "");
+  if (rsvpNumber) {
     const rsvp = $("rsvp-button");
-    rsvp.classList.remove("is-hidden");
+    $("rsvp-actions").classList.remove("is-hidden");
+    $("rsvp-call").href = `tel:${data.rsvpPhone.startsWith("+") ? "+" : ""}${rsvpNumber}`;
     set("rsvp-copy", `Kindly reply by ${data.rsvpBy}. We would be honoured to celebrate with you.`);
     rsvp.addEventListener("click", () => {
       const message = encodeURIComponent(`Hello! I am responding to ${data.couple.groom} & ${data.couple.bride}'s wedding invitation.`);
-      location.href = `https://wa.me/${data.rsvpPhone.replace(/\D/g, "")}?text=${message}`;
+      location.href = `https://wa.me/${rsvpNumber}?text=${message}`;
     });
   }
+  if (data.rsvpNote) {
+    set("rsvp-note", data.rsvpNote);
+    $("rsvp-note").hidden = false;
+  }
+  for (const [key, label] of [["expected", "Guests expected"], ["confirmed", "Confirmed"]]) {
+    const count = data.rsvpStats?.[key];
+    if (!Number.isInteger(count) || count < 0) continue;
+    const stat = element("div", "rsvp-stat");
+    stat.append(element("strong", "", String(count)), element("span", "", label));
+    $("rsvp-stats").append(stat);
+    $("rsvp-stats").hidden = false;
+  }
 
-  $("notify-button").addEventListener("click", () => toast("We’ll share the date and venue here very soon ✦"));
   $("share-button").addEventListener("click", async () => {
     const shareData = { title: document.title, text: `${data.couple.groom} & ${data.couple.bride} invite you to celebrate their wedding.`, url: location.href };
     try {
@@ -71,16 +149,25 @@
     } catch (error) { if (error.name !== "AbortError") toast("Copy the page link to share this invitation"); }
   });
 
-  $("calendar-button").addEventListener("click", () => {
-    const start = new Date(data.dateISO);
-    const end = new Date(start.getTime() + 5 * 60 * 60 * 1000);
+  function downloadCalendar(dateISO, title, venue, endISO) {
+    const start = new Date(dateISO);
+    if (!Number.isFinite(start.getTime())) return;
+    const end = new Date(endISO);
     const stamp = (d) => d.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
-    const ics = ["BEGIN:VCALENDAR", "VERSION:2.0", "BEGIN:VEVENT", `DTSTART:${stamp(start)}`, `DTEND:${stamp(end)}`, `SUMMARY:${data.couple.groom} & ${data.couple.bride}'s Wedding`, `LOCATION:${data.venue}, ${data.address}`, "END:VEVENT", "END:VCALENDAR"].join("\r\n");
+    const escape = (value) => String(value).replace(/[\\;,]/g, "\\$&").replace(/\r?\n/g, "\\n");
+    const uid = `${stamp(start)}-${encodeURIComponent(title)}@wedding-invitation`;
+    const lines = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Wedding Invitation//EN", "BEGIN:VEVENT", `UID:${uid}`, `DTSTAMP:${stamp(new Date())}`, `DTSTART:${stamp(start)}`];
+    if (end > start) lines.push(`DTEND:${stamp(end)}`);
+    lines.push(`SUMMARY:${escape(title)}`, `LOCATION:${escape(venue)}`, "END:VEVENT", "END:VCALENDAR", "");
+    const ics = lines.join("\r\n");
     const a = document.createElement("a");
     a.href = URL.createObjectURL(new Blob([ics], { type: "text/calendar" }));
     a.download = `${data.couple.groom}-${data.couple.bride}-wedding.ics`;
     a.click();
-    URL.revokeObjectURL(a.href);
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  }
+  $("calendar-button").addEventListener("click", () => {
+    downloadCalendar(data.dateISO, `${data.couple.groom} & ${data.couple.bride}'s Wedding`, `${data.venue}, ${data.address}`, data.endISO);
   });
 
   const observer = new IntersectionObserver((entries) => entries.forEach((entry) => {
@@ -164,7 +251,7 @@
     const effects = $("pointer-effects");
     const portrait = $("blessing-portrait");
     const cover = $("opening");
-    const motifs = ["✿", "✧", "❋", "◈", "ॐ"];
+    const motifs = ["🌸", "✧", "🪷", "🪔", "🕉️"];
     const trailInterval = 20;
     let lastPoint;
     let lastBurst = -Infinity;
