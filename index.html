@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600&family=Manrope:wght@400;500;600;700&family=Tiro+Devanagari+Sanskrit&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=music-icon">
+  <link rel="stylesheet" href="styles.css?v=classic-invite">
   <script src="wedding-data.js"></script>
 </head>
 <body>
@@ -41,30 +41,34 @@
     </div>
   </div>
 
-  <header class="topbar" id="topbar">
-    <a class="brand" href="#blessing" aria-label="Back to the blessing"><span id="brand-monogram">S · S</span></a>
-    <nav class="desktop-nav" aria-label="Main navigation">
-      <a href="#home">Invitation</a><a href="#story">The couple</a><a href="#celebration">Ceremonies</a><a href="#venue">Venue</a><a href="#rsvp">RSVP</a>
-    </nav>
-    <div class="topbar__actions">
-      <button type="button" class="icon-button" id="theme-button" aria-pressed="false" aria-label="Evening theme" title="Evening theme">☾</button>
+  <header class="floating-controls">
+    <div class="floating-controls__top">
       <button class="icon-button" id="share-button" aria-label="Share invitation">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V3m0 0L7 8m5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>
       </button>
-      <details class="mobile-nav" id="mobile-nav">
+      <details class="section-menu" id="section-menu">
         <summary class="icon-button" aria-label="Invitation menu">☰</summary>
-        <nav aria-label="Mobile navigation">
-          <a href="#blessing">Blessing</a><a href="#home">Invitation</a><a href="#story">The couple</a><a href="#celebration">Ceremonies</a><a href="#venue">Venue</a><a href="#rsvp">RSVP</a>
+        <nav aria-label="Invitation sections">
+          <a href="#blessing"><span aria-hidden="true">ॐ</span> Blessing</a>
+          <a href="#home"><span aria-hidden="true">✉</span> Invitation</a>
+          <a href="#story"><span aria-hidden="true">♥</span> The couple</a>
+          <a href="#rituals"><span aria-hidden="true">✿</span> Wedding rituals</a>
+          <a href="#celebration"><span aria-hidden="true">◈</span> Schedule</a>
+          <a href="#venue"><span aria-hidden="true">⌖</span> Venue</a>
+          <a href="#rsvp"><span aria-hidden="true">✓</span> RSVP</a>
         </nav>
       </details>
     </div>
-    <button type="button" class="music-button" id="music-button" aria-label="Play music" title="Play music" hidden>
-      <svg viewBox="0 0 28 28" aria-hidden="true" focusable="false">
-        <path class="music-button__note" d="M4 18.5a3 2.5 0 1 0 6 0V6.7l12-2.5v5.5M10 10.4l12-2.5"/>
-        <path class="music-button__play" d="m17 14 8 5-8 5z"/>
-        <path class="music-button__pause" d="M18 14v10m6-10v10"/>
-      </svg>
-    </button>
+    <div class="floating-controls__bottom">
+      <button type="button" class="music-button" id="music-button" aria-label="Play music" title="Play music" hidden>
+        <svg viewBox="0 0 28 28" aria-hidden="true" focusable="false">
+          <path class="music-button__note" d="M4 18.5a3 2.5 0 1 0 6 0V6.7l12-2.5v5.5M10 10.4l12-2.5"/>
+          <path class="music-button__play" d="m17 14 8 5-8 5z"/>
+          <path class="music-button__pause" d="M18 14v10m6-10v10"/>
+        </svg>
+      </button>
+      <button type="button" class="icon-button" id="theme-button" aria-pressed="false" aria-label="Evening theme" title="Evening theme">☾</button>
+    </div>
   </header>
 
   <main>
@@ -94,6 +98,8 @@
         <svg viewBox="0 0 300 600"><path d="M42 604C32 468 54 354 147 248c44-50 73-120 76-205M98 419c-39-6-67-25-81-60 38-4 69 10 94 40M141 286c-11-44-1-82 30-112 20 38 16 75-12 111M191 171c-27-23-40-51-37-86 34 13 52 38 55 74M64 506c40-2 72 12 97 43-38 14-74 5-107-27"/><circle cx="224" cy="42" r="12"/></svg>
       </div>
       <div class="hero__content reveal">
+        <p class="invitation-card__blessing" lang="sa">॥ श्री गणेशाय नमः ॥</p>
+        <p class="invitation-card__hindi" lang="hi">शुभ विवाह में आपका सादर आमंत्रण है</p>
         <p class="eyebrow" id="hero-greeting">Together with their families</p>
         <div class="hero__names">
           <h1 id="invitation-title" tabindex="-1"><span id="hero-bride">Shivani</span><i>&</i><span id="hero-groom">Sujeet</span></h1>
@@ -111,36 +117,31 @@
 
     <section class="story section" id="story">
       <div class="section__intro reveal">
-        <p class="eyebrow" lang="hi">वर एवं वधू</p>
         <h2>The <em>couple</em></h2>
+        <p class="section-subtitle" lang="hi">वर एवं वधू</p>
       </div>
       <div class="couple-grid">
         <article class="couple-card reveal"><p class="eyebrow">The bride</p><h3 id="signature-bride">Shivani</h3></article>
-        <span class="couple-grid__join" aria-hidden="true">&amp;</span>
+        <span class="couple-grid__join" aria-hidden="true">♥</span>
         <article class="couple-card reveal"><p class="eyebrow">The groom</p><h3 id="signature-groom">Sujeet</h3></article>
       </div>
     </section>
 
-    <section class="wedding-blessing section" aria-labelledby="blessing-title">
-      <p class="eyebrow" id="blessing-title">A wedding blessing</p>
-      <blockquote lang="sa">समञ्जन्तु विश्वे देवाः समापो हृदयानि नौ ।<br>सं मातरिश्वा सं धाता समु देष्ट्री दधातु नौ ॥</blockquote>
-      <p>May the divine unite our hearts.</p>
-      <cite>Rigveda 10.85.47 · Vivaha Sukta</cite>
-    </section>
-
-    <section class="celebration section" id="celebration">
-      <div class="section__intro section__intro--light reveal">
-        <p class="eyebrow" lang="hi">विवाह कार्यक्रम</p>
-        <h2>Wedding <em>ceremonies</em></h2>
+    <section class="rituals section" id="rituals" aria-labelledby="rituals-title">
+      <div class="section__intro reveal">
+        <h2 id="rituals-title">Sacred wedding <em>rituals</em></h2>
+        <p class="section-subtitle" lang="hi">विवाह संस्कार</p>
       </div>
-      <div class="event-grid" id="event-grid"></div>
-      <p class="detail-note reveal" id="detail-note">The final schedule will be shared with our guests soon.</p>
+      <div class="ritual-grid">
+        <article class="ritual-card reveal"><span class="ritual-card__icon" aria-hidden="true">☀</span><h3>Haldi</h3><p lang="hi">हल्दी की रस्म</p><p>Family and friends apply turmeric paste and offer their blessings.</p></article>
+        <article class="ritual-card reveal"><span class="ritual-card__icon" aria-hidden="true">❋</span><h3>Mehndi</h3><p lang="hi">मेहँदी की रस्म</p><p>Intricate henna designs mark an evening of music and celebration.</p></article>
+        <article class="ritual-card reveal"><span class="ritual-card__icon" aria-hidden="true">✦</span><h3>Saat Phere</h3><p lang="hi">सात फेरे</p><p>The couple takes seven rounds around the sacred fire.</p></article>
+      </div>
     </section>
 
     <section class="date-section section" aria-labelledby="countdown-heading">
       <div class="date-section__copy reveal">
-        <p class="eyebrow">Until we say “I do”</p>
-        <h2 id="countdown-heading">Counting every <em>little moment.</em></h2>
+        <h2 id="countdown-heading">Mark your <em>calendar</em></h2>
         <p id="countdown-note">The countdown begins as soon as our date is announced.</p>
       </div>
       <div class="countdown reveal" id="countdown" aria-live="polite">
@@ -149,6 +150,15 @@
         <div><strong id="minutes">—</strong><span>Minutes</span></div>
         <div><strong id="seconds">—</strong><span>Seconds</span></div>
       </div>
+    </section>
+
+    <section class="celebration section" id="celebration">
+      <div class="section__intro reveal">
+        <h2>Wedding <em>schedule</em></h2>
+        <p class="section-subtitle" lang="hi">विवाह कार्यक्रम</p>
+      </div>
+      <div class="event-grid" id="event-grid"></div>
+      <p class="detail-note reveal" id="detail-note">The final schedule will be shared with our guests soon.</p>
     </section>
 
     <section class="venue section" id="venue">
@@ -168,10 +178,18 @@
 
     <section class="rsvp section" id="rsvp">
       <div class="rsvp__inner reveal">
-        <p class="eyebrow">With love</p>
-        <h2>Your presence would make our day <em>complete.</em></h2>
+        <h2>Confirm your <em>presence</em></h2>
+        <p class="section-subtitle" lang="hi">आपकी उपस्थिति सादर वांछित है</p>
         <p id="rsvp-copy">Formal RSVP details will be shared with the celebration schedule.</p>
         <button class="button button--gold is-hidden" id="rsvp-button">RSVP on WhatsApp</button>
+      </div>
+    </section>
+    <section class="wedding-blessing section" aria-labelledby="blessing-title">
+      <div class="blessing-card reveal">
+        <p class="eyebrow" id="blessing-title">A wedding blessing</p>
+        <blockquote lang="sa">समञ्जन्तु विश्वे देवाः समापो हृदयानि नौ ।<br>सं मातरिश्वा सं धाता समु देष्ट्री दधातु नौ ॥</blockquote>
+        <p>May the divine unite our hearts.</p>
+        <cite>Rigveda 10.85.47 · Vivaha Sukta</cite>
       </div>
     </section>
   </main>
@@ -184,6 +202,6 @@
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script src="script.js?v=music-icon"></script>
+  <script src="script.js?v=classic-invite"></script>
 </body>
 </html>

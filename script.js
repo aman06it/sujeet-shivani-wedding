@@ -9,7 +9,6 @@
     set(`${prefix}-groom`, data.couple.groom);
   });
   set("opening-monogram", data.couple.monogram);
-  set("brand-monogram", data.couple.monogram);
   set("hero-greeting", data.greeting);
   set("hero-invitation", data.invitation);
   set("current-year", new Date().getFullYear());
@@ -95,7 +94,7 @@
   addEventListener("resize", updateReadingProgress);
   updateReadingProgress();
 
-  const menu = $("mobile-nav");
+  const menu = $("section-menu");
   menu.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => { menu.open = false; }));
   menu.addEventListener("keydown", (event) => {
     if (event.key === "Escape" && menu.open) {
