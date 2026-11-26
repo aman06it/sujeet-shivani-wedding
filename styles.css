@@ -23,20 +23,28 @@ button { font: inherit; }
 .eyebrow { margin: 0 0 1.25rem; color: var(--gold); font-size: .75rem; font-weight: 600; letter-spacing: .22em; text-transform: uppercase; }
 .is-hidden { display: none !important; }
 
-.opening { position: fixed; inset: 0; z-index: 90; display: grid; place-items: center; color: var(--paper); transition: visibility 0s 1.4s; }
-.opening__panel { position: absolute; top: 0; bottom: 0; width: 50.15%; background: var(--wine); transition: transform 1.25s cubic-bezier(.77,0,.18,1) .32s; }
-.opening__panel::after { content: ""; position: absolute; inset: 0; opacity: .14; background: radial-gradient(circle at 50% 15%, var(--rose), transparent 45%), repeating-linear-gradient(110deg, transparent 0 12px, rgba(255,255,255,.025) 13px); }
+.opening { position: fixed; inset: 0; z-index: 90; display: grid; place-items: center; overflow: auto; color: var(--paper); }
+.opening[hidden], .chant-button[hidden] { display: none; }
+.opening__panel { position: absolute; inset-block: 0; width: 50.2%; background: #280713; transition: transform 1.2s cubic-bezier(.77,0,.18,1) .24s; }
+.opening__panel::after { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse at 100% 48%, #773248 0, transparent 68%), repeating-linear-gradient(90deg, #ffffff04 0 1px, #00000024 17px, transparent 35px); }
+.opening__panel--right::after { transform: scaleX(-1); }
 .opening__panel--left { left: 0; border-right: 1px solid rgba(227,201,135,.22); }
 .opening__panel--right { right: 0; border-left: 1px solid rgba(227,201,135,.22); }
-.opening__content { position: relative; z-index: 2; width: min(90vw, 620px); text-align: center; transition: opacity .45s ease, transform .6s ease; }
+.opening__arch { position: absolute; inset: max(1.1rem, 5%) max(1.1rem, calc((100% - 40rem) / 2)); border: 1px solid #e5bd7477; border-radius: 48% 48% .4rem .4rem / 34% 34% .4rem .4rem; box-shadow: inset 0 0 3rem #d5803c18, 0 0 5rem #ffbc5422; animation: arch-glow 3.8s ease-in-out infinite alternate; }
+.opening__arch::after { content: ""; position: absolute; inset: .55rem; border: 1px solid #e5bd7440; border-radius: inherit; }
+.opening__content { position: relative; z-index: 2; width: min(90vw, 620px); padding: 2rem .6rem; text-align: center; transition: opacity .38s ease, transform .6s ease; }
+.opening__blessing { margin: 0 0 1.4rem; color: var(--gold-bright); font: 1.25rem "Tiro Devanagari Sanskrit", serif; animation: opening-rise .75s both; }
 .opening h1 { margin: 1.8rem 0 .6rem; font-family: var(--serif); font-size: clamp(2.7rem, 9vw, 5.6rem); font-weight: 400; line-height: .95; }
 .opening h1 i, .signature i, .footer__names i { color: var(--gold); font-family: var(--serif); font-weight: 400; }
 .opening__guest { margin: 0 0 2rem; color: rgba(247,241,232,.68); }
-.opening__hint { margin: 1.15rem 0 0; color: rgba(247,241,232,.42); font-size: .72rem; letter-spacing: .05em; }
+.opening__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: .65rem; }
+.opening .button--quiet { border-color: #e3c98785; background: #2b071455; color: var(--paper); }
 .seal { width: 84px; height: 84px; margin: 0 auto; display: grid; place-items: center; border: 1px solid rgba(227,201,135,.45); border-radius: 50%; color: var(--gold-bright); font-family: var(--serif); font-size: 1.25rem; position: relative; }
 .seal::before, .seal::after { content: ""; position: absolute; inset: 6px; border: 1px solid rgba(227,201,135,.2); border-radius: inherit; }
 .seal::after { inset: -6px; border-style: dotted; animation: spin 24s linear infinite; }
-.opening.is-open { visibility: hidden; }
+.opening.with-sound .seal { box-shadow: 0 0 2rem #e4bd7466; }
+.opening.is-open { pointer-events: none; }
+.opening.is-open .opening__arch { animation: none; opacity: 0; transition: opacity .35s ease; }
 .opening.is-open .opening__panel--left { transform: translateX(-102%); }
 .opening.is-open .opening__panel--right { transform: translateX(102%); }
 .opening.is-open .opening__content { opacity: 0; transform: translateY(-12px) scale(.97); }
@@ -54,6 +62,9 @@ button { font: inherit; }
 .topbar nav a { text-decoration: none; color: rgba(247,241,232,.76); font-size: .74rem; letter-spacing: .09em; text-transform: uppercase; }
 .icon-button { width: 42px; height: 42px; padding: 10px; border: 1px solid rgba(247,241,232,.2); border-radius: 50%; background: transparent; color: var(--paper); cursor: pointer; }
 .icon-button svg { width: 100%; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.topbar__actions { display: flex; align-items: center; gap: .65rem; }
+.chant-button { min-height: 44px; padding: .5rem 1rem; border: 1px solid #e3c98788; border-radius: 999px; background: var(--wine); color: var(--gold-bright); font-size: .875rem; cursor: pointer; }
+.button:focus-visible, .chant-button:focus-visible, .icon-button:focus-visible { outline: 2px solid var(--gold-bright); outline-offset: 4px; }
 
 .hero { min-height: 100svh; position: relative; display: grid; place-items: center; overflow: hidden; background: radial-gradient(circle at 50% 38%, #5d1830 0, var(--wine) 54%, #19020a 100%); color: var(--paper); }
 .hero::after { content: ""; position: absolute; inset: 1.2rem; border: 1px solid rgba(227,201,135,.16); pointer-events: none; }
@@ -93,6 +104,10 @@ button { font: inherit; }
 .vow-card blockquote { margin: 1.5rem 0; font-family: var(--serif); font-size: clamp(1.8rem, 3.2vw, 2.8rem); line-height: 1.2; }
 .vow-card > p { color: #7b6664; font-size: .78rem; text-transform: uppercase; letter-spacing: .12em; }
 .signature { margin-top: 1.4rem; font-family: var(--serif); color: var(--wine); font-size: 2.1rem; }
+.wedding-blessing { padding-block: clamp(3.5rem, 7vw, 6rem); background: var(--paper-deep); text-align: center; }
+.wedding-blessing .eyebrow { color: #70501f; }
+.wedding-blessing blockquote { max-width: 48rem; margin: 0 auto 1.2rem; color: var(--wine); font: clamp(1.22rem, 3vw, 2rem)/1.7 "Tiro Devanagari Sanskrit", serif; }
+.wedding-blessing cite { color: #725e60; font-size: .875rem; }
 
 .celebration { position: relative; overflow: hidden; color: var(--paper); background: var(--wine); }
 .celebration::before { content: ""; position: absolute; inset: 0; opacity: .1; background: radial-gradient(circle at 80% 20%, var(--rose), transparent 28%), linear-gradient(115deg, transparent 0 48%, rgba(255,255,255,.08) 48.1% 48.3%, transparent 48.4%); }
@@ -145,6 +160,8 @@ footer > p:first-child { margin: 0; font-size: .78rem; letter-spacing: .12em; te
 .reveal.visible { opacity: 1; transform: none; }
 
 @keyframes spin { to { transform: rotate(360deg); } }
+@keyframes arch-glow { from { opacity: .52; } to { opacity: 1; } }
+@keyframes opening-rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
 @keyframes breathe { 50% { opacity: .25; transform: scaleY(.72); } }
 @keyframes fall { to { transform: translate3d(var(--drift), 110vh, 0) rotate(560deg); opacity: 0; } }
 
@@ -164,6 +181,7 @@ footer > p:first-child { margin: 0; font-size: .78rem; letter-spacing: .12em; te
   .hero__names h1 { font-size: clamp(3.9rem, 21vw, 6rem); }
   .opening h1 span { display: block; }
   .opening h1 i { display: block; margin: .12rem; }
+  .opening__actions { flex-direction: column; align-items: center; }
   .section { padding-left: 1.25rem; padding-right: 1.25rem; }
   .countdown strong { font-size: 2rem; }
   .countdown div { padding: 1.25rem .15rem; }

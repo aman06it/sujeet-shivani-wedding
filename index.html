@@ -11,24 +11,28 @@
   <title>Sujeet & Shivani — Wedding Invitation</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Italiana&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Italiana&family=Manrope:wght@400;500;600&family=Tiro+Devanagari+Sanskrit&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <script src="wedding-data.js"></script>
 </head>
-<body class="locked">
+<body>
   <div class="grain" aria-hidden="true"></div>
   <div class="petals" id="petals" aria-hidden="true"></div>
 
-  <div class="opening" id="opening" role="dialog" aria-modal="true" aria-labelledby="opening-title">
+  <audio id="wedding-chant" src="wedding-mantra.mp3" preload="auto"></audio>
+  <div class="opening" id="opening" role="dialog" aria-modal="true" aria-labelledby="opening-title" hidden>
     <div class="opening__panel opening__panel--left"></div>
     <div class="opening__panel opening__panel--right"></div>
+    <div class="opening__arch" aria-hidden="true"></div>
     <div class="opening__content">
-      <p class="eyebrow">A wedding invitation</p>
+      <p class="opening__blessing" lang="sa">॥ शुभ विवाह ॥</p>
       <div class="seal" aria-hidden="true"><span id="opening-monogram">S · S</span></div>
       <h1 id="opening-title"><span id="opening-bride">Shivani</span> <i>&</i> <span id="opening-groom">Sujeet</span></h1>
       <p class="opening__guest" id="guest-greeting">Especially for you</p>
-      <button class="button button--gold" id="open-invitation">Open invitation</button>
-      <p class="opening__hint">Best experienced with a little time and a lot of love</p>
+      <div class="opening__actions">
+        <button type="button" class="button button--gold" id="open-invitation">Play with sound</button>
+        <button type="button" class="button button--quiet" id="open-silent">Continue without sound</button>
+      </div>
     </div>
   </div>
 
@@ -39,9 +43,12 @@
       <a href="#celebration">Celebration</a>
       <a href="#venue">Venue</a>
     </nav>
-    <button class="icon-button" id="share-button" aria-label="Share invitation">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V3m0 0L7 8m5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>
-    </button>
+    <div class="topbar__actions">
+      <button type="button" class="chant-button" id="chant-button" hidden>Play mantra</button>
+      <button class="icon-button" id="share-button" aria-label="Share invitation">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V3m0 0L7 8m5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>
+      </button>
+    </div>
   </header>
 
   <main>
@@ -57,7 +64,7 @@
       <div class="hero__content reveal">
         <p class="eyebrow" id="hero-greeting">Together with their families</p>
         <div class="hero__names">
-          <h1><span id="hero-bride">Shivani</span><i>&</i><span id="hero-groom">Sujeet</span></h1>
+          <h1 id="invitation-title" tabindex="-1"><span id="hero-bride">Shivani</span><i>&</i><span id="hero-groom">Sujeet</span></h1>
         </div>
         <div class="ornament" aria-hidden="true"><span></span><b>✦</b><span></span></div>
         <p class="hero__invitation" id="hero-invitation">request the pleasure of your company as they begin their forever.</p>
@@ -82,6 +89,13 @@
         <p>With gratitude in our hearts and the blessings of our families</p>
         <div class="signature"><span id="signature-bride">Shivani</span> <i>&</i> <span id="signature-groom">Sujeet</span></div>
       </div>
+    </section>
+
+    <section class="wedding-blessing section" aria-labelledby="blessing-title">
+      <p class="eyebrow" id="blessing-title">A wedding blessing</p>
+      <blockquote lang="sa">समञ्जन्तु विश्वे देवाः समापो हृदयानि नौ ।<br>सं मातरिश्वा सं धाता समु देष्ट्री दधातु नौ ॥</blockquote>
+      <p>May the divine unite our hearts.</p>
+      <cite>Rigveda 10.85.47 · Vivaha Sukta</cite>
     </section>
 
     <section class="celebration section" id="celebration">

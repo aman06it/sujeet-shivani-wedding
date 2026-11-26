@@ -62,13 +62,6 @@
     });
   }
 
-  $("open-invitation").addEventListener("click", () => {
-    $("opening").classList.add("is-open");
-    document.body.classList.remove("locked");
-    setTimeout(() => $("opening").setAttribute("aria-hidden", "true"), 1500);
-    petals(18);
-  });
-
   $("notify-button").addEventListener("click", () => toast("We’ll share the date and venue here very soon ✦"));
   $("share-button").addEventListener("click", async () => {
     const shareData = { title: document.title, text: `${data.couple.groom} & ${data.couple.bride} invite you to celebrate their wedding.`, url: location.href };
@@ -134,4 +127,68 @@
     clearTimeout(toastTimer);
     toastTimer = setTimeout(() => el.classList.remove("show"), 2800);
   }
+
+  const opening = $("opening");
+  const chant = $("wedding-chant");
+  const chantButton = $("chant-button");
+  const soundButton = $("open-invitation");
+  const pageContent = document.querySelectorAll("header, main, footer");
+  const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function updateSoundControls() {
+    const isPlaying = !chant.paused && !chant.ended;
+    chantButton.textContent = isPlaying ? "Pause mantra" : "Play mantra";
+    soundButton.textContent = isPlaying ? "Continue with sound" : "Play with sound";
+    opening.classList.toggle("with-sound", isPlaying);
+  }
+
+  function playChant(onArrival = false) {
+    if (chant.ended) chant.currentTime = 0;
+    chant.play().catch((error) => {
+      if (!onArrival && error.name !== "AbortError") toast("Couldn’t play the mantra. Tap Play mantra to try again.");
+    });
+  }
+
+  function revealInvitation() {
+    if (opening.classList.contains("is-open")) return;
+    clearTimeout(autoReveal);
+    const focusWasInOpening = opening.contains(document.activeElement);
+    opening.classList.add("is-open");
+    opening.inert = true;
+    document.body.classList.remove("locked");
+    pageContent.forEach((element) => { element.inert = false; });
+    chantButton.hidden = false;
+    if (focusWasInOpening) $("invitation-title").focus({ preventScroll: true });
+    if (reducedMotion) {
+      opening.hidden = true;
+    } else {
+      petals(28);
+      setTimeout(() => { opening.hidden = true; }, 1600);
+    }
+  }
+
+  ["play", "pause", "ended"].forEach((event) => chant.addEventListener(event, updateSoundControls));
+  chantButton.addEventListener("click", () => {
+    if (chant.paused || chant.ended) playChant();
+    else chant.pause();
+  });
+  soundButton.addEventListener("click", () => {
+    if (chant.paused || chant.ended) playChant();
+    revealInvitation();
+  });
+  function continueSilently() {
+    chant.pause();
+    revealInvitation();
+  }
+  $("open-silent").addEventListener("click", continueSilently);
+  opening.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") continueSilently();
+  });
+
+  pageContent.forEach((element) => { element.inert = true; });
+  document.body.classList.add("locked");
+  opening.hidden = false;
+  soundButton.focus({ preventScroll: true });
+  const autoReveal = setTimeout(revealInvitation, 6500);
+  playChant(true);
 })();
