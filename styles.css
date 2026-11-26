@@ -469,3 +469,124 @@ footer { padding: 0 1.1rem 5rem; color: var(--accent); }
 @media (prefers-reduced-motion: reduce) {
   .divine-card:hover { transform: none; }
 }
+
+/* Invitation polish, adapted from the supplied wedding reference. */
+main { position: relative; isolation: isolate; }
+main::before {
+  content: "";
+  position: fixed;
+  inset: -3vmin;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 13% 23%, #dcb7522b, transparent 33%),
+    radial-gradient(ellipse at 88% 74%, #982f5820, transparent 31%),
+    radial-gradient(ellipse at 78% 14%, #dfb45820, transparent 27%);
+  animation: wedding-aura-drift 24s ease-in-out infinite alternate;
+}
+.invocation { background-color: transparent; }
+:root[data-evening] main::before { opacity: .55; }
+@keyframes wedding-aura-drift {
+  to { transform: translate(1.4%, -1%) scale(1.045); }
+}
+
+.hero__content { isolation: isolate; overflow: hidden; }
+.hero__content::before, .hero__content::after { content: ""; position: absolute; pointer-events: none; }
+.hero__content::before {
+  inset: 3px 3px auto;
+  height: 5px;
+  background: linear-gradient(90deg, #741c3b, #e3c367, #741c3b);
+}
+.hero__content::after {
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(108deg, transparent 39%, #e8bd5b24 49%, #fff2cb55 54%, transparent 64%);
+  animation: invitation-shimmer 7s ease-in-out infinite;
+}
+@keyframes invitation-shimmer {
+  0%, 100% { transform: translateX(-123%); }
+  50% { transform: translateX(123%); }
+}
+.hero__content.visible #hero-bride,
+.hero__content.visible #hero-groom { animation: invitation-name-in .86s ease-out both; }
+.hero__content.visible #hero-bride { animation-delay: .12s; }
+.hero__content.visible #hero-groom { animation-delay: .32s; }
+@keyframes invitation-name-in {
+  from { opacity: 0; transform: translateY(11px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.opening__medallion { animation: medallion-glow 3s ease-in-out infinite; }
+.opening #open-invitation { animation: invitation-button-glow 2.4s ease-in-out infinite; }
+@keyframes medallion-glow {
+  50% { box-shadow: 0 0 2.65rem #e9a94765, inset 0 0 2rem #d8994b28; }
+}
+@keyframes invitation-button-glow {
+  50% { box-shadow: 0 .45rem 1.8rem #eabe5466; }
+}
+.opening__interlude { isolation: isolate; }
+.opening__interlude::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: radial-gradient(circle at center, #daaa5340, transparent 44vmin);
+  animation: interlude-aura 2.5s ease-in-out infinite;
+}
+@keyframes interlude-aura {
+  50% { opacity: .66; transform: scale(1.07); }
+}
+
+.page-heading h2 span { display: inline-block; animation: heading-ornament 6s ease-in-out infinite; }
+.page-heading h2 span:last-child { animation-delay: .45s; }
+@keyframes heading-ornament {
+  50% { transform: scale(1.13) rotate(8deg); }
+}
+.ritual-card__icon { animation: ritual-icon-bob 4s var(--reveal-delay, 0ms) ease-in-out infinite; }
+@keyframes ritual-icon-bob {
+  50% { transform: translateY(-6px); }
+}
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .ritual-card.reveal.visible:hover, .couple-card.reveal.visible:hover {
+    transform: translateY(-7px) scale(1.018);
+    box-shadow: 0 16px 36px #6c23422b;
+    transition-delay: 0ms;
+  }
+  .ritual-card:hover .ritual-card__icon { animation: ritual-icon-pop .56s ease-out; }
+}
+@keyframes ritual-icon-pop {
+  45% { transform: translateY(-3px) scale(1.13); }
+}
+
+.countdown div { animation: countdown-tile-glow 4s ease-in-out infinite; }
+.countdown div:nth-child(2) { animation-delay: .6s; }
+.countdown div:nth-child(3) { animation-delay: 1.2s; }
+.countdown div:nth-child(4) { animation-delay: 1.8s; }
+.countdown strong.countdown-tick { animation: countdown-number-tick .42s ease-out; }
+@keyframes countdown-tile-glow {
+  0%, 100% { box-shadow: 0 4px 12px #420d2426; }
+  50% { box-shadow: 0 7px 21px #bd8b3252; transform: translateY(-3px); }
+}
+@keyframes countdown-number-tick {
+  42% { transform: scale(1.09); filter: brightness(1.2); }
+}
+.reading-progress { overflow: hidden; }
+.reading-progress::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, #fff0acbb, transparent);
+  animation: reading-progress-shimmer 2.2s linear infinite;
+}
+@keyframes reading-progress-shimmer {
+  from { translate: -100% 0; }
+  to { translate: 100% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  main::before, .hero__content::after, .reading-progress::after,
+  .hero__content.visible #hero-bride, .hero__content.visible #hero-groom,
+  .opening__medallion, .opening #open-invitation, .opening__interlude::before,
+  .page-heading h2 span, .ritual-card__icon, .countdown div,
+  .countdown strong.countdown-tick { animation: none; }
+}

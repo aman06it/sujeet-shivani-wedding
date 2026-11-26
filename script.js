@@ -179,7 +179,6 @@
     });
   });
   document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
-  $("hero-greeting").closest(".reveal").classList.add("visible");
 
   const menu = $("section-menu");
   const menuLinks = [...menu.querySelectorAll("a")];
@@ -223,16 +222,35 @@
 
   function startCountdown() {
     const target = new Date(data.dateISO).getTime();
+    const motion = matchMedia("(prefers-reduced-motion: reduce)");
+    const units = ["days", "hours", "minutes", "seconds"].map($);
     set("countdown-note", `${data.dateLong} · ${data.time}`);
     const tick = () => {
       const remaining = Math.max(0, target - Date.now());
       const day = 86400000, hour = 3600000, minute = 60000;
-      set("days", Math.floor(remaining / day));
-      set("hours", String(Math.floor((remaining % day) / hour)).padStart(2, "0"));
-      set("minutes", String(Math.floor((remaining % hour) / minute)).padStart(2, "0"));
-      set("seconds", String(Math.floor((remaining % minute) / 1000)).padStart(2, "0"));
+      const values = [
+        String(Math.floor(remaining / day)),
+        String(Math.floor((remaining % day) / hour)).padStart(2, "0"),
+        String(Math.floor((remaining % hour) / minute)).padStart(2, "0"),
+        String(Math.floor((remaining % minute) / 1000)).padStart(2, "0")
+      ];
+      units.forEach((unit, index) => {
+        const previous = unit.textContent;
+        const value = values[index];
+        if (previous === value) return;
+        unit.textContent = value;
+        if (motion.matches || previous === "—") return;
+        unit.classList.remove("countdown-tick");
+        void unit.offsetWidth;
+        unit.classList.add("countdown-tick");
+      });
+      return remaining > 0;
     };
-    tick(); setInterval(tick, 1000);
+    if (tick()) {
+      const timer = setInterval(() => {
+        if (!tick()) clearInterval(timer);
+      }, 1000);
+    }
   }
 
   function petals(count) {
