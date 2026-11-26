@@ -302,6 +302,7 @@
     opening.classList.add("is-open");
     opening.inert = true;
     document.body.classList.remove("locked");
+    if (!location.hash && scrollY > 0) window.scrollTo({ top: 0, behavior: "instant" });
     pageContent.forEach((element) => { element.inert = false; });
     musicButton.hidden = false;
     document.body.classList.add("invitation-open");

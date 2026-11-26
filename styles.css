@@ -259,10 +259,20 @@ section[id] { scroll-margin-top: 1rem; }
 
 .invocation, .hero, .story, .rituals, .celebration, .venue, .rsvp { background: var(--paper); color: var(--ink); }
 .invocation, .hero, .story, .rituals, .rsvp { background-image: var(--paper-pattern); background-size: auto, 32px 32px; }
-.invocation { min-height: min(100svh, 52rem); display: grid; place-items: center; text-align: center; padding-block: 5rem 3rem; }
-.invocation__inner { width: min(100%, 31rem); }
-.invocation__om { margin: 0 0 .7rem; color: var(--accent); font-size: 2rem; line-height: 1; }
-.invocation__portrait { display: grid; place-items: center; width: clamp(7rem, 18vw, 10rem); aspect-ratio: 1; margin: 0 auto 1.6rem; border: 1px solid #bc8d4c; border-radius: 50%; padding: .35rem; background: #f7e8cc; color: #8e3b36; box-shadow: 0 0 0 .35rem #d7a45335, 0 0 2.75rem #e9a63c45; overflow: hidden; cursor: pointer; transition: transform .3s ease, box-shadow .3s ease; }
+.invocation {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding-block: clamp(2rem, 5svh, 5rem);
+  background-image: radial-gradient(ellipse at 50% 44%, #d5a65024, transparent 48%), var(--paper-pattern);
+  background-size: auto, auto, 28px 28px;
+}
+#blessing { scroll-margin-top: 0; }
+.invocation__inner { width: min(100%, 33.5rem); }
+.invocation__om { margin: 0 0 clamp(.7rem, 2.5svh, 1.9rem); color: #a47823; font-size: clamp(2.35rem, 5.1svh, 4.25rem); line-height: 1; }
+.invocation__portrait { display: grid; place-items: center; width: clamp(6.75rem, min(21svh, 39vw), 16.5rem); aspect-ratio: 1; margin: 0 auto clamp(1.25rem, 4.1svh, 3.5rem); border: 2px solid #c19a57; border-radius: 50%; padding: clamp(.28rem, .65svh, .65rem); background: #f7e8cc; color: #8e3b36; box-shadow: 0 0 0 .35rem #d7a45335, 0 0 2.75rem #e9a63c45; overflow: hidden; cursor: pointer; transition: transform .3s ease, box-shadow .3s ease; }
 .invocation__portrait:focus-visible { outline: 2px solid var(--accent); outline-offset: .4rem; }
 .invocation__portrait.offering { animation: offering-glow .85s ease both; }
 @keyframes offering-glow {
@@ -276,12 +286,12 @@ section[id] { scroll-margin-top: 1rem; }
   .invocation__portrait:hover, .ritual-card.reveal.visible:hover, .couple-card.reveal.visible:hover { transform: none; }
 }
 .invocation__portrait img { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: 50%; }
-.invocation h2 { margin: 0; color: var(--accent); font-size: clamp(1.55rem, 4vw, 2.5rem); font-weight: 400; }
-.invocation__translation { margin: .35rem 0 1.35rem; color: var(--soft); font: italic 600 1.35rem var(--serif); }
-.invocation__verse { padding: 1.2rem clamp(.9rem, 4vw, 2.25rem); background: var(--card); border: 1px solid #a57640; border-radius: .75rem; box-shadow: 0 7px 20px #81502b24; }
+.invocation h2 { margin: 0; color: var(--accent); font-size: clamp(1.6rem, min(4vw, 4.8svh), 3.15rem); font-weight: 700; }
+.invocation__translation { margin: .45rem 0 clamp(1.25rem, 4svh, 3rem); color: var(--soft); font: italic 500 clamp(.94rem, 2svh, 1.22rem)/1.5 var(--sans); }
+.invocation__verse { padding: clamp(1.1rem, 3.5svh, 2.75rem) clamp(.9rem, 4vw, 2.25rem); background: var(--card); border: 2px solid #7f2442; border-radius: 1.25rem; box-shadow: inset 0 0 0 2px #d9b354, 0 7px 28px #81502b24; }
 .invocation__verse p { margin: 0; }
-.invocation__verse p[lang] { font-size: clamp(1.05rem, 3.5vw, 1.4rem); color: var(--accent); line-height: 1.65; }
-.invocation__verse p + p { margin-top: .65rem; color: var(--soft); font-size: .94rem; }
+.invocation__verse p[lang] { font-size: clamp(1.05rem, min(3.8vw, 2.4svh), 1.5rem); color: var(--accent); line-height: 1.75; }
+.invocation__verse p + p { margin-top: clamp(.65rem, 2svh, 1.5rem); color: var(--soft); font-size: clamp(.9rem, 1.75svh, 1.07rem); font-style: italic; }
 .invocation__continue { display: inline-flex; align-items: center; min-height: 44px; margin-top: .75rem; color: var(--accent); font-weight: 700; text-underline-offset: .25rem; }
 .invitation-open .invocation__inner { animation: opening-rise .9s 1.75s both; }
 
@@ -359,7 +369,6 @@ footer { padding-bottom: 5rem; background: var(--paper); color: var(--accent); }
   .ritual-grid { grid-template-columns: minmax(0, 1fr); max-width: 25rem; }
 }
 @media (max-width: 520px) {
-  .invocation { min-height: 100svh; }
   .couple-grid { grid-template-columns: 1fr; gap: .5rem; max-width: 22rem; }
   .couple-grid__join { line-height: 1; }
   .hero__content { padding-inline: .95rem; }
