@@ -8,13 +8,13 @@ window.WEDDING = {
   },
   greeting: "Together with their families",
   invitation: "invite you to celebrate their wedding",
-  // Flip this to false after replacing the sample date and venue below.
-  detailsArePlaceholder: true,
-  dateISO: "2027-02-14T18:00:00+05:30",
-  dateLong: "Sunday, 14 February 2027",
-  time: "6:00 PM onwards",
-  venue: "The Grand Courtyard",
-  address: "Lucknow, Uttar Pradesh",
+  detailsArePlaceholder: false,
+  dateISO: "2027-02-02T14:00:00+05:30",
+  dateLong: "Tuesday, 2 February 2027",
+  time: "2:00 PM IST",
+  // Leave venue fields blank until the location is confirmed.
+  venue: "",
+  address: "",
   mapsUrl: "",
   preWeddingVenue: null, // { name, address, mapsUrl }
   rsvpPhone: "",

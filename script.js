@@ -97,11 +97,14 @@
     set("date-kicker", "Save the date");
     set("date-long", data.dateLong);
     set("calendar-date", data.dateLong);
-    set("date-location", `${data.venue} · ${data.address}`);
-    set("venue-name", data.venue);
-    set("venue-address", data.address);
+    const venueLocation = [data.venue, data.address].filter(Boolean).join(", ");
+    set("date-location", [data.time, venueLocation || "Venue to be announced"].filter(Boolean).join(" · "));
+    if (data.venue) {
+      set("venue-name", data.venue);
+      set("venue-address", data.address || "");
+    }
     set("venue-time", `${data.dateLong} · ${data.time}`);
-    set("detail-note", `Celebration details for ${data.dateLong}.`);
+    set("detail-note", "We’ll share additional ceremony details as they’re confirmed.");
     const hasWeddingDate = Number.isFinite(Date.parse(data.dateISO));
     $("calendar-button").classList.toggle("is-hidden", !hasWeddingDate);
     $("main-venue-actions").classList.toggle("is-hidden", !hasWeddingDate && !data.mapsUrl);
@@ -192,7 +195,9 @@
     const uid = `${stamp(start)}-${encodeURIComponent(title)}@wedding-invitation`;
     const lines = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Wedding Invitation//EN", "BEGIN:VEVENT", `UID:${uid}`, `DTSTAMP:${stamp(new Date())}`, `DTSTART:${stamp(start)}`];
     if (end > start) lines.push(`DTEND:${stamp(end)}`);
-    lines.push(`SUMMARY:${escape(title)}`, `LOCATION:${escape(venue)}`, "END:VEVENT", "END:VCALENDAR", "");
+    lines.push(`SUMMARY:${escape(title)}`);
+    if (venue) lines.push(`LOCATION:${escape(venue)}`);
+    lines.push("END:VEVENT", "END:VCALENDAR", "");
     const ics = lines.join("\r\n");
     const a = document.createElement("a");
     a.href = URL.createObjectURL(new Blob([ics], { type: "text/calendar" }));
@@ -201,7 +206,7 @@
     setTimeout(() => URL.revokeObjectURL(a.href), 1000);
   }
   $("calendar-button").addEventListener("click", () => {
-    downloadCalendar(data.dateISO, `${data.couple.groom} & ${data.couple.bride}'s Wedding`, `${data.venue}, ${data.address}`, data.endISO);
+    downloadCalendar(data.dateISO, `${data.couple.groom} & ${data.couple.bride}'s Wedding`, [data.venue, data.address].filter(Boolean).join(", "), data.endISO);
   });
 
   const observer = new IntersectionObserver((entries) => entries.forEach((entry) => {
