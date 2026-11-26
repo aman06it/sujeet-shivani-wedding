@@ -162,11 +162,8 @@ footer > p:first-child { margin: 0; font-size: .78rem; letter-spacing: .12em; te
 :root[data-evening] .ambient-motifs { color: #db9b92; }
 .pointer-effects { z-index: 24; }
 .pointer-sparkle { position: absolute; width: var(--sparkle-size); aspect-ratio: 1; margin: calc(var(--sparkle-size) * -.5); border-radius: 50%; background: var(--sparkle-color); animation: sparkle-fade .82s ease-out both; }
-.pointer-burst { position: absolute; width: 0; height: 0; animation: heart-burst 1.15s cubic-bezier(.15,.5,.25,1) both; }
-.pointer-burst span { position: absolute; color: #bb3b68; font: 18px/1 system-ui, sans-serif; text-shadow: 0 1px 3px #68223a38; transform: translate(-50%, -50%) translate(var(--heart-x), var(--heart-y)) rotate(var(--heart-tilt)); }
-.pointer-burst span:nth-child(3n) { color: #ce9544; }
-.pointer-burst span:nth-child(4n) { color: #e07098; font-size: 13px; }
-.pointer-burst span:nth-child(5n) { font-size: 22px; }
+.pointer-burst { position: absolute; width: 0; height: 0; animation: heart-swirl 1.65s ease-out both; }
+.pointer-burst span { position: absolute; font: var(--heart-size)/1 "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif; animation: heart-spread 1.45s var(--heart-delay) cubic-bezier(.2,.7,.3,1) both; }
 @keyframes motif-drift {
   from { transform: translate3d(-10px, 16px, 0) rotate(-16deg); opacity: .095; }
   to { transform: translate3d(13px, -23px, 0) rotate(24deg); opacity: .23; }
@@ -175,10 +172,16 @@ footer > p:first-child { margin: 0; font-size: .78rem; letter-spacing: .12em; te
   from { opacity: .88; transform: scale(1); }
   to { opacity: 0; transform: translateY(9px) scale(.2); }
 }
-@keyframes heart-burst {
-  0% { opacity: 0; transform: scale(.18) rotate(-28deg); }
-  18% { opacity: 1; }
-  100% { opacity: 0; transform: scale(1.36) rotate(26deg); }
+@keyframes heart-swirl {
+  0% { opacity: 1; transform: translate(3px, 6px) rotate(-100deg); }
+  38% { opacity: .95; }
+  100% { opacity: 0; transform: translate(12px, 14px) rotate(42deg); }
+}
+@keyframes heart-spread {
+  from { opacity: 0; transform: translate(-50%, -50%) scale(.45); }
+  9% { opacity: 1; }
+  35% { transform: translate(-50%, -50%) translate(calc(var(--heart-x) * .6), calc(var(--heart-y) * .6)) rotate(var(--heart-tilt)) scale(.97); }
+  to { transform: translate(-50%, -50%) translate(var(--heart-x), var(--heart-y)) rotate(var(--heart-tilt)) scale(1.04); }
 }
 .toast { position: fixed; z-index: 110; left: 50%; bottom: 1.5rem; max-width: calc(100vw - 2rem); padding: .8rem 1.2rem; border-radius: 999px; color: var(--paper); background: rgba(31,2,11,.92); font-size: .8rem; opacity: 0; transform: translate(-50%, 20px); pointer-events: none; transition: opacity .25s ease, transform .25s ease; }
 .toast.show { opacity: 1; transform: translate(-50%, 0); }

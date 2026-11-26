@@ -172,7 +172,9 @@
     function addEffect(effect, x, y) {
       effect.style.left = `${x}px`;
       effect.style.top = `${y}px`;
-      effect.addEventListener("animationend", () => effect.remove(), { once: true });
+      effect.addEventListener("animationend", (event) => {
+        if (event.target === effect) effect.remove();
+      });
       effects.append(effect);
     }
 
@@ -188,17 +190,22 @@
       addEffect(sparkle, x, y);
     }
 
-    function burstHearts(x, y, radius = 67) {
+    function burstHearts(x, y) {
       const ring = document.createElement("span");
       ring.className = "pointer-burst";
-      for (let i = 0; i < 14; i++) {
+      const count = 20;
+      const spread = Math.min(92, innerWidth * .24);
+      for (let i = 0; i < count; i++) {
+        const progress = i / count;
+        const angle = progress * Math.PI * 1.87;
+        const distance = spread * (.86 + .18 * progress + Math.random() * .08);
         const heart = document.createElement("span");
-        const angle = i * 2 * Math.PI / 14;
-        const distance = radius * (.82 + Math.random() * .18);
-        heart.textContent = "♥";
+        heart.textContent = i % 6 === 0 ? "💝" : i % 3 === 0 ? "💖" : "💗";
         heart.style.setProperty("--heart-x", `${Math.cos(angle) * distance}px`);
         heart.style.setProperty("--heart-y", `${Math.sin(angle) * distance}px`);
-        heart.style.setProperty("--heart-tilt", `${(Math.random() - .5) * 60}deg`);
+        heart.style.setProperty("--heart-tilt", `${(angle * 180) / Math.PI}deg`);
+        heart.style.setProperty("--heart-size", `${15 + Math.random() * 11}px`);
+        heart.style.setProperty("--heart-delay", `${Math.round(progress * 135)}ms`);
         ring.append(heart);
       }
       addEffect(ring, x, y);
@@ -207,10 +214,10 @@
     document.querySelector("main").addEventListener("pointermove", trail, { passive: true });
     document.querySelector("main").addEventListener("click", (event) => {
       if (motionPreference.matches || document.body.classList.contains("locked")) return;
-      if (portrait.contains(event.target)) {
+      if (!event.detail && portrait.contains(event.target)) {
         const rect = portrait.getBoundingClientRect();
-        burstHearts(rect.left + rect.width / 2, rect.top + rect.height / 2, rect.width / 2 + 28);
-      } else if (event.detail && !event.target.closest("a, button, input, select, textarea")) {
+        burstHearts(rect.left + rect.width / 2, rect.top + rect.height / 2);
+      } else if (event.detail && (portrait.contains(event.target) || !event.target.closest("a, button, input, select, textarea"))) {
         burstHearts(event.clientX, event.clientY);
       }
     });
