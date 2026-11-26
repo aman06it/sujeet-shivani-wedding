@@ -24,7 +24,7 @@ button { font: inherit; }
 .is-hidden { display: none !important; }
 
 .opening { position: fixed; inset: 0; z-index: 90; display: grid; place-items: center; overflow: auto; color: var(--paper); }
-.opening[hidden], .chant-button[hidden] { display: none; }
+.opening[hidden], .music-button[hidden] { display: none; }
 .opening__panel { position: absolute; inset-block: 0; width: 50.2%; background: #280713; transition: transform 1.2s cubic-bezier(.77,0,.18,1) .24s; }
 .opening__panel::after { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse at 100% 48%, #773248 0, transparent 68%), repeating-linear-gradient(90deg, #ffffff04 0 1px, #00000024 17px, transparent 35px); }
 .opening__panel--right::after { transform: scaleX(-1); }
@@ -63,8 +63,8 @@ button { font: inherit; }
 .icon-button { width: 42px; height: 42px; padding: 10px; border: 1px solid rgba(247,241,232,.2); border-radius: 50%; background: transparent; color: var(--paper); cursor: pointer; }
 .icon-button svg { width: 100%; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
 .topbar__actions { display: flex; align-items: center; gap: .65rem; }
-.chant-button { min-height: 44px; padding: .5rem 1rem; border: 1px solid #e3c98788; border-radius: 999px; background: var(--wine); color: var(--gold-bright); font-size: .875rem; cursor: pointer; }
-.button:focus-visible, .chant-button:focus-visible, .icon-button:focus-visible { outline: 2px solid var(--gold-bright); outline-offset: 4px; }
+.music-button { min-height: 44px; padding: .5rem 1rem; border: 1px solid #e3c98788; border-radius: 999px; background: var(--wine); color: var(--gold-bright); font-size: .875rem; cursor: pointer; }
+.button:focus-visible, .music-button:focus-visible, .icon-button:focus-visible { outline: 2px solid var(--gold-bright); outline-offset: 4px; }
 
 .hero { min-height: 100svh; position: relative; display: grid; place-items: center; overflow: hidden; background: radial-gradient(circle at 50% 38%, #5d1830 0, var(--wine) 54%, #19020a 100%); color: var(--paper); }
 .hero::after { content: ""; position: absolute; inset: 1.2rem; border: 1px solid rgba(227,201,135,.16); pointer-events: none; }

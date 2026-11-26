@@ -129,23 +129,23 @@
   }
 
   const opening = $("opening");
-  const chant = $("wedding-chant");
-  const chantButton = $("chant-button");
+  const music = $("wedding-music");
+  const musicButton = $("music-button");
   const soundButton = $("open-invitation");
   const pageContent = document.querySelectorAll("header, main, footer");
   const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   function updateSoundControls() {
-    const isPlaying = !chant.paused && !chant.ended;
-    chantButton.textContent = isPlaying ? "Pause mantra" : "Play mantra";
+    const isPlaying = !music.paused && !music.ended;
+    musicButton.textContent = isPlaying ? "Pause music" : "Play music";
     soundButton.textContent = isPlaying ? "Continue with sound" : "Play with sound";
     opening.classList.toggle("with-sound", isPlaying);
   }
 
-  function playChant(onArrival = false) {
-    if (chant.ended) chant.currentTime = 0;
-    chant.play().catch((error) => {
-      if (!onArrival && error.name !== "AbortError") toast("Couldn’t play the mantra. Tap Play mantra to try again.");
+  function playMusic(onArrival = false) {
+    if (music.ended) music.currentTime = 0;
+    music.play().catch((error) => {
+      if (!onArrival && error.name !== "AbortError") toast("Couldn’t play the music. Tap Play music to try again.");
     });
   }
 
@@ -157,7 +157,7 @@
     opening.inert = true;
     document.body.classList.remove("locked");
     pageContent.forEach((element) => { element.inert = false; });
-    chantButton.hidden = false;
+    musicButton.hidden = false;
     if (focusWasInOpening) $("invitation-title").focus({ preventScroll: true });
     if (reducedMotion) {
       opening.hidden = true;
@@ -167,17 +167,17 @@
     }
   }
 
-  ["play", "pause", "ended"].forEach((event) => chant.addEventListener(event, updateSoundControls));
-  chantButton.addEventListener("click", () => {
-    if (chant.paused || chant.ended) playChant();
-    else chant.pause();
+  ["play", "pause", "ended"].forEach((event) => music.addEventListener(event, updateSoundControls));
+  musicButton.addEventListener("click", () => {
+    if (music.paused || music.ended) playMusic();
+    else music.pause();
   });
   soundButton.addEventListener("click", () => {
-    if (chant.paused || chant.ended) playChant();
+    if (music.paused || music.ended) playMusic();
     revealInvitation();
   });
   function continueSilently() {
-    chant.pause();
+    music.pause();
     revealInvitation();
   }
   $("open-silent").addEventListener("click", continueSilently);
@@ -190,5 +190,5 @@
   opening.hidden = false;
   soundButton.focus({ preventScroll: true });
   const autoReveal = setTimeout(revealInvitation, 6500);
-  playChant(true);
+  playMusic(true);
 })();

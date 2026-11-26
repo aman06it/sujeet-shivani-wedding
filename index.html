@@ -19,7 +19,7 @@
   <div class="grain" aria-hidden="true"></div>
   <div class="petals" id="petals" aria-hidden="true"></div>
 
-  <audio id="wedding-chant" src="wedding-mantra.mp3" preload="auto"></audio>
+  <audio id="wedding-music" src="wedding-invitation-music.mp3" preload="auto" loop></audio>
   <div class="opening" id="opening" role="dialog" aria-modal="true" aria-labelledby="opening-title" hidden>
     <div class="opening__panel opening__panel--left"></div>
     <div class="opening__panel opening__panel--right"></div>
@@ -44,7 +44,7 @@
       <a href="#venue">Venue</a>
     </nav>
     <div class="topbar__actions">
-      <button type="button" class="chant-button" id="chant-button" hidden>Play mantra</button>
+      <button type="button" class="music-button" id="music-button" hidden>Play music</button>
       <button class="icon-button" id="share-button" aria-label="Share invitation">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V3m0 0L7 8m5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>
       </button>
@@ -149,7 +149,7 @@
   <footer>
     <p>We cannot wait to celebrate with you.</p>
     <div class="footer__names"><span id="footer-bride">Shivani</span> <i>&</i> <span id="footer-groom">Sujeet</span></div>
-    <p class="footer__small">Made with love · <span id="current-year"></span></p>
+    <p class="footer__small">Made with love · <span id="current-year"></span> · <a href="https://pixabay.com/music/wedding-wedding-invitation-421393/">Music by sahilmadan</a></p>
   </footer>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
