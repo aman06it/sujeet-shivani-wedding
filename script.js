@@ -88,16 +88,30 @@
   }), { threshold: .13 });
   document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
   $("hero-greeting").closest(".reveal").classList.add("visible");
-  function updateReadingProgress() {
-    const height = document.documentElement.scrollHeight - innerHeight;
-    $("reading-progress").style.transform = `scaleX(${height > 0 ? Math.min(1, Math.max(0, scrollY / height)) : 0})`;
-  }
-  addEventListener("scroll", updateReadingProgress, { passive: true });
-  addEventListener("resize", updateReadingProgress);
-  updateReadingProgress();
 
   const menu = $("section-menu");
-  menu.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => { menu.open = false; }));
+  const menuLinks = [...menu.querySelectorAll("a")];
+  const menuSections = menuLinks.map((link) => $(link.hash.slice(1)));
+  let activeLink = menuLinks[0];
+  function updateReadingPosition() {
+    const height = document.documentElement.scrollHeight - innerHeight;
+    $("reading-progress").style.transform = `scaleX(${height > 0 ? Math.min(1, Math.max(0, scrollY / height)) : 0})`;
+    let current = menuLinks[0];
+    for (let i = 0; i < menuSections.length; i++) {
+      if (menuSections[i].getBoundingClientRect().top > innerHeight * .28) break;
+      current = menuLinks[i];
+    }
+    if (current !== activeLink) {
+      activeLink.removeAttribute("aria-current");
+      current.setAttribute("aria-current", "location");
+      activeLink = current;
+    }
+  }
+  addEventListener("scroll", updateReadingPosition, { passive: true });
+  addEventListener("resize", updateReadingPosition);
+  updateReadingPosition();
+
+  menuLinks.forEach((link) => link.addEventListener("click", () => { menu.open = false; }));
   menu.addEventListener("keydown", (event) => {
     if (event.key === "Escape" && menu.open) {
       menu.open = false;

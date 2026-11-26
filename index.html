@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600&family=Manrope:wght@400;500;600;700&family=Tiro+Devanagari+Sanskrit&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=curtain-cover">
+  <link rel="stylesheet" href="styles.css?v=hindi-menu">
   <script src="wedding-data.js"></script>
 </head>
 <body>
@@ -50,15 +50,20 @@
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V3m0 0L7 8m5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>
       </button>
       <details class="section-menu" id="section-menu">
-        <summary class="icon-button" aria-label="Invitation menu">☰</summary>
+        <summary class="icon-button" aria-label="Invitation menu">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path class="section-menu__lines" d="M5 6h14M5 12h14M5 18h14"/>
+            <path class="section-menu__close" d="m5 5 14 14M19 5 5 19"/>
+          </svg>
+        </summary>
         <nav aria-label="Invitation sections">
-          <a href="#blessing"><span aria-hidden="true">ॐ</span> Blessing</a>
-          <a href="#home"><span aria-hidden="true">✉</span> Invitation</a>
-          <a href="#story"><span aria-hidden="true">♥</span> The couple</a>
-          <a href="#rituals"><span aria-hidden="true">✿</span> Wedding rituals</a>
-          <a href="#celebration"><span aria-hidden="true">◈</span> Schedule</a>
-          <a href="#venue"><span aria-hidden="true">⌖</span> Venue</a>
-          <a href="#rsvp"><span aria-hidden="true">✓</span> RSVP</a>
+          <a href="#blessing" aria-current="location"><span aria-hidden="true">🙏</span><span lang="hi">आशीर्वाद</span></a>
+          <a href="#home"><span aria-hidden="true">💕</span><span lang="hi">निमंत्रण</span></a>
+          <a href="#story"><span aria-hidden="true">👫</span><span lang="hi">दंपति</span></a>
+          <a href="#rituals"><span aria-hidden="true">🪔</span><span lang="hi">संस्कार</span></a>
+          <a href="#celebration"><span aria-hidden="true">📋</span><span lang="hi">कार्यक्रम</span></a>
+          <a href="#venue"><span aria-hidden="true">📍</span><span lang="hi">स्थान</span></a>
+          <a href="#rsvp"><span aria-hidden="true">✉️</span><span>RSVP</span></a>
         </nav>
       </details>
     </div>
@@ -205,6 +210,6 @@
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script src="script.js?v=curtain-cover"></script>
+  <script src="script.js?v=hindi-menu"></script>
 </body>
 </html>
