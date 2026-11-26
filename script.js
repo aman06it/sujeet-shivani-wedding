@@ -161,7 +161,10 @@
 
   function updateSoundControls() {
     const isPlaying = !music.paused && !music.ended;
-    musicButton.textContent = isPlaying ? "Pause music" : "Play music";
+    const musicLabel = isPlaying ? "Pause music" : "Play music";
+    musicButton.setAttribute("aria-label", musicLabel);
+    musicButton.title = musicLabel;
+    musicButton.toggleAttribute("data-playing", isPlaying);
     soundButton.textContent = isPlaying ? "Continue with sound" : "Play with sound";
     opening.classList.toggle("with-sound", isPlaying);
   }
