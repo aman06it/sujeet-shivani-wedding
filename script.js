@@ -8,14 +8,16 @@
     set(`${prefix}-bride`, data.couple.bride);
     set(`${prefix}-groom`, data.couple.groom);
   });
-  set("opening-monogram", data.couple.monogram);
   set("hero-greeting", data.greeting);
   set("hero-invitation", data.invitation);
   set("current-year", new Date().getFullYear());
   document.title = `${data.couple.groom} & ${data.couple.bride} — Wedding Invitation`;
 
   const guest = new URLSearchParams(location.search).get("to");
-  if (guest) set("guest-greeting", `Especially for ${guest}`);
+  if (guest) {
+    set("guest-greeting", `Especially for ${guest}`);
+    $("guest-greeting").hidden = false;
+  }
 
   const icon = {
     sun: '<svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="7"/><path d="M20 4v6m0 20v6M4 20h6m20 0h6M8.7 8.7l4.2 4.2m14.2 14.2 4.2 4.2M31.3 8.7l-4.2 4.2M12.9 27.1l-4.2 4.2"/></svg>',
@@ -271,8 +273,6 @@
     musicButton.setAttribute("aria-label", musicLabel);
     musicButton.title = musicLabel;
     musicButton.toggleAttribute("data-playing", isPlaying);
-    soundButton.textContent = isPlaying ? "Continue with sound" : "Play with sound";
-    opening.classList.toggle("with-sound", isPlaying);
   }
 
   function playMusic(onArrival = false) {
@@ -284,7 +284,6 @@
 
   function revealInvitation() {
     if (opening.classList.contains("is-open")) return;
-    clearTimeout(autoReveal);
     const focusWasInOpening = opening.contains(document.activeElement);
     opening.classList.add("is-open");
     opening.inert = true;
@@ -324,7 +323,6 @@
     if (event.key === "Escape") continueSilently();
   });
 
-  let autoReveal;
   if (location.hash) {
     musicButton.hidden = false;
   } else {
@@ -332,7 +330,6 @@
     document.body.classList.add("locked");
     opening.hidden = false;
     soundButton.focus({ preventScroll: true });
-    autoReveal = setTimeout(revealInvitation, 6500);
   }
   playMusic(true);
 })();
