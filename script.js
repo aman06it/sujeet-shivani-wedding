@@ -172,7 +172,12 @@
 
   const observer = new IntersectionObserver((entries) => entries.forEach((entry) => {
     if (entry.isIntersecting) { entry.target.classList.add("visible"); observer.unobserve(entry.target); }
-  }), { threshold: .13 });
+  }), { threshold: .08, rootMargin: "0px 0px -32px 0px" });
+  document.querySelectorAll(".couple-grid, .ritual-grid, .event-grid, .venue-grid").forEach((group) => {
+    [...group.querySelectorAll(".reveal")].forEach((card, i) => {
+      card.style.setProperty("--reveal-delay", `${Math.min(i, 3) * 90}ms`);
+    });
+  });
   document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
   $("hero-greeting").closest(".reveal").classList.add("visible");
 
@@ -248,30 +253,45 @@
   function setupPointerEffects() {
     const motionPreference = matchMedia("(prefers-reduced-motion: reduce)");
     const ambient = $("ambient-motifs");
+    const ritualFlourishes = $("ritual-flourishes");
     const effects = $("pointer-effects");
     const portrait = $("blessing-portrait");
     const cover = $("opening");
-    const motifs = ["🌸", "✧", "🪷", "🪔", "🕉️"];
+    const motifs = [
+      { symbol: "🪔", kind: "lamp", count: 8, duration: 20, size: 1.5 },
+      { symbol: "🌸", kind: "flower", count: 10, duration: 25, size: 1.4 },
+      { symbol: "🪷", kind: "lotus", count: 6, duration: 30, size: 1.75 },
+      { symbol: "🕉️", kind: "om", count: 4, duration: 40, size: 1.9 }
+    ];
     const trailInterval = 20;
     let lastPoint;
     let lastBurst = -Infinity;
 
     function refreshAmbientMotifs() {
       ambient.replaceChildren();
+      ritualFlourishes.replaceChildren();
       effects.replaceChildren();
       lastPoint = undefined;
       lastBurst = -Infinity;
       if (motionPreference.matches) return;
 
-      for (let i = 0; i < 24; i++) {
-        const motif = document.createElement("span");
-        motif.textContent = motifs[i % motifs.length];
-        motif.style.left = `${2 + (i % 6) * 16 + Math.random() * 9}%`;
-        motif.style.top = `${5 + Math.floor(i / 6) * 23 + Math.random() * 13}%`;
-        motif.style.setProperty("--motif-size", `${.75 + Math.random() * .65}rem`);
-        motif.style.setProperty("--drift-time", `${16 + Math.random() * 14}s`);
-        motif.style.setProperty("--drift-offset", `${-Math.random() * 20}s`);
-        ambient.append(motif);
+      for (const { symbol, kind, count, duration, size } of motifs) {
+        for (let i = 0; i < count; i++) {
+          const motif = element("span", `ambient-motif--${kind}`, symbol);
+          motif.style.left = `${3 + Math.random() * 94}%`;
+          motif.style.top = `${3 + Math.random() * 92}%`;
+          motif.style.setProperty("--motif-size", `${size * (.7 + Math.random() * .3)}rem`);
+          motif.style.setProperty("--drift-time", `${duration}s`);
+          motif.style.setProperty("--drift-offset", `${-Math.random() * duration}s`);
+          ambient.append(motif);
+        }
+      }
+      for (let i = 0; i < 8; i++) {
+        const petal = element("span", "", i % 2 ? "🌸" : "🌼");
+        petal.style.left = `${7 + (i / 8) * 88}%`;
+        petal.style.setProperty("--drift-time", `${11 + Math.random() * 7}s`);
+        petal.style.setProperty("--drift-offset", `${-Math.random() * 12}s`);
+        ritualFlourishes.append(petal);
       }
     }
 
@@ -320,7 +340,7 @@
       addEffect(ring, x, y);
     }
 
-    document.querySelector("main").addEventListener("pointermove", trail, { passive: true });
+    document.addEventListener("pointermove", trail, { passive: true });
     document.addEventListener("click", (event) => {
       if (motionPreference.matches || document.body.classList.contains("locked") || cover.contains(event.target)) return;
       const fromPointer = event.detail > 0;
@@ -388,23 +408,26 @@
     const focusWasInOpening = opening.contains(document.activeElement);
     opening.classList.add("is-open");
     opening.inert = true;
-    document.body.classList.remove("locked");
-    if (!location.hash && scrollY > 0) window.scrollTo({ top: 0, behavior: "instant" });
-    pageContent.forEach((element) => { element.inert = false; });
-    musicButton.hidden = false;
-    document.body.classList.add("invitation-open");
-    if (focusWasInOpening) {
-      const destination = document.getElementById(location.hash.slice(1));
-      const title = destination?.querySelector("h1, h2") || $("invocation-title");
-      title.setAttribute("tabindex", "-1");
-      title.focus({ preventScroll: true });
-    }
-    if (reducedMotion) {
+    function finishOpening() {
+      if (opening.hidden) return;
       opening.hidden = true;
-    } else {
+      document.body.classList.remove("locked");
+      if (!location.hash && scrollY > 0) window.scrollTo({ top: 0, behavior: "instant" });
+      pageContent.forEach((element) => { element.inert = false; });
+      musicButton.hidden = false;
+      document.body.classList.add("invitation-open");
+      if (focusWasInOpening) $("invocation-title").focus({ preventScroll: true });
       petals(28);
-      setTimeout(() => { opening.hidden = true; }, 2600);
     }
+    if (reducedMotion) return finishOpening();
+
+    const interlude = opening.querySelector(".opening__interlude");
+    const fallback = setTimeout(finishOpening, 4600);
+    interlude.addEventListener("animationend", (event) => {
+      if (event.target !== interlude) return;
+      clearTimeout(fallback);
+      finishOpening();
+    });
   }
 
   ["play", "pause", "ended"].forEach((event) => music.addEventListener(event, updateSoundControls));
