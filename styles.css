@@ -161,11 +161,12 @@ footer > p:first-child { margin: 0; font-size: .78rem; letter-spacing: .12em; te
 .ambient-motifs span:nth-child(4n) { color: #9a638e; }
 :root[data-evening] .ambient-motifs { color: #db9b92; }
 .pointer-effects { z-index: 24; }
-.pointer-sparkle { position: absolute; width: 5px; aspect-ratio: 1; margin: -2.5px; border-radius: 50%; background: var(--sparkle-color); animation: sparkle-fade .65s ease-out both; }
-.pointer-burst { position: absolute; width: 0; height: 0; animation: petal-ring 1.05s cubic-bezier(.15,.5,.25,1) both; }
-.pointer-burst i { position: absolute; width: 9px; height: 14px; margin: -7px -4.5px; border-radius: 90% 30% 80% 35%; background: linear-gradient(145deg, #ec92b6, #ac315f); transform: rotate(var(--angle)) translateX(var(--burst-radius)) rotate(48deg); }
-.pointer-burst i:nth-child(3n) { background: linear-gradient(145deg, #f6d88a, #ca9649); }
-.pointer-burst i:nth-child(4n) { width: 6px; height: 10px; }
+.pointer-sparkle { position: absolute; width: var(--sparkle-size); aspect-ratio: 1; margin: calc(var(--sparkle-size) * -.5); border-radius: 50%; background: var(--sparkle-color); animation: sparkle-fade .82s ease-out both; }
+.pointer-burst { position: absolute; width: 0; height: 0; animation: heart-burst 1.15s cubic-bezier(.15,.5,.25,1) both; }
+.pointer-burst span { position: absolute; color: #bb3b68; font: 18px/1 system-ui, sans-serif; text-shadow: 0 1px 3px #68223a38; transform: translate(-50%, -50%) translate(var(--heart-x), var(--heart-y)) rotate(var(--heart-tilt)); }
+.pointer-burst span:nth-child(3n) { color: #ce9544; }
+.pointer-burst span:nth-child(4n) { color: #e07098; font-size: 13px; }
+.pointer-burst span:nth-child(5n) { font-size: 22px; }
 @keyframes motif-drift {
   from { transform: translate3d(-10px, 16px, 0) rotate(-16deg); opacity: .095; }
   to { transform: translate3d(13px, -23px, 0) rotate(24deg); opacity: .23; }
@@ -174,7 +175,7 @@ footer > p:first-child { margin: 0; font-size: .78rem; letter-spacing: .12em; te
   from { opacity: .88; transform: scale(1); }
   to { opacity: 0; transform: translateY(9px) scale(.2); }
 }
-@keyframes petal-ring {
+@keyframes heart-burst {
   0% { opacity: 0; transform: scale(.18) rotate(-28deg); }
   18% { opacity: 1; }
   100% { opacity: 0; transform: scale(1.36) rotate(26deg); }
@@ -280,7 +281,7 @@ section[id] { scroll-margin-top: 1rem; }
   35% { box-shadow: 0 0 0 .65rem #d7a45355, 0 0 3.8rem #e9a63c85; }
 }
 @media (hover: hover) and (pointer: fine) {
-  .invocation__portrait:hover { transform: scale(1.045); box-shadow: 0 0 0 .4rem #d7a45348, 0 0 3.3rem #e9a63c60; }
+  .invocation__portrait:hover { transform: scale(1.055); box-shadow: 0 0 0 .48rem #d7a45355, 0 0 3.6rem #e9a63c75; }
   .ritual-card.reveal.visible:hover, .couple-card.reveal.visible:hover { transform: translateY(-4px); }
 }
 @media (prefers-reduced-motion: reduce) {

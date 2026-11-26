@@ -142,13 +142,13 @@
     }
   }
 
-  function setupPetalEffects() {
+  function setupPointerEffects() {
     const motionPreference = matchMedia("(prefers-reduced-motion: reduce)");
     const ambient = $("ambient-motifs");
     const effects = $("pointer-effects");
     const portrait = $("blessing-portrait");
     const motifs = ["✿", "✧", "❋", "◈", "ॐ"];
-    const spacing = 36;
+    const trailInterval = 20;
     let lastPoint;
 
     function refreshAmbientMotifs() {
@@ -179,22 +179,27 @@
     function trail(event) {
       if (motionPreference.matches || document.body.classList.contains("locked") || event.pointerType !== "mouse") return;
       const { clientX: x, clientY: y } = event;
-      if (lastPoint && (event.timeStamp - lastPoint.time < spacing || Math.hypot(x - lastPoint.x, y - lastPoint.y) < 6)) return;
+      if (lastPoint && (event.timeStamp - lastPoint.time < trailInterval || Math.hypot(x - lastPoint.x, y - lastPoint.y) < 3)) return;
       lastPoint = { x, y, time: event.timeStamp };
       const sparkle = document.createElement("span");
       sparkle.className = "pointer-sparkle";
       sparkle.style.setProperty("--sparkle-color", Math.random() < .55 ? "#b78a35" : "#9f466b");
+      sparkle.style.setProperty("--sparkle-size", `${3 + Math.random() * 3}px`);
       addEffect(sparkle, x, y);
     }
 
-    function burst(x, y, radius = 67) {
+    function burstHearts(x, y, radius = 67) {
       const ring = document.createElement("span");
       ring.className = "pointer-burst";
-      ring.style.setProperty("--burst-radius", `${radius}px`);
       for (let i = 0; i < 14; i++) {
-        const petal = document.createElement("i");
-        petal.style.setProperty("--angle", `${(i * 360) / 14}deg`);
-        ring.append(petal);
+        const heart = document.createElement("span");
+        const angle = i * 2 * Math.PI / 14;
+        const distance = radius * (.82 + Math.random() * .18);
+        heart.textContent = "♥";
+        heart.style.setProperty("--heart-x", `${Math.cos(angle) * distance}px`);
+        heart.style.setProperty("--heart-y", `${Math.sin(angle) * distance}px`);
+        heart.style.setProperty("--heart-tilt", `${(Math.random() - .5) * 60}deg`);
+        ring.append(heart);
       }
       addEffect(ring, x, y);
     }
@@ -204,18 +209,18 @@
       if (motionPreference.matches || document.body.classList.contains("locked")) return;
       if (portrait.contains(event.target)) {
         const rect = portrait.getBoundingClientRect();
-        burst(rect.left + rect.width / 2, rect.top + rect.height / 2, rect.width / 2 + 18);
+        burstHearts(rect.left + rect.width / 2, rect.top + rect.height / 2, rect.width / 2 + 28);
       } else if (event.detail && !event.target.closest("a, button, input, select, textarea")) {
-        burst(event.clientX, event.clientY);
+        burstHearts(event.clientX, event.clientY);
       }
     });
     portrait.addEventListener("click", () => {
       if (motionPreference.matches) {
-        toast("Flower petals offered");
+        toast("Hearts sent");
         return;
       }
       portrait.classList.remove("offering");
-      // Restart the glow when guests offer petals again before it ends.
+      // Restart the glow when guests click again before it ends.
       void portrait.offsetWidth;
       portrait.classList.add("offering");
     });
@@ -225,7 +230,7 @@
     motionPreference.addEventListener("change", refreshAmbientMotifs);
   }
 
-  setupPetalEffects();
+  setupPointerEffects();
 
   let toastTimer;
   function toast(message) {
