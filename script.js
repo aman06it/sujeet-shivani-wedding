@@ -281,6 +281,75 @@
     }
   }
 
+  function setupCursorTrail(motionPreference) {
+    const canvas = $("cursor-trail");
+    const context = canvas.getContext("2d");
+    if (!context) return;
+
+    const colors = ["#5C0F28", "#D4AF37", "#E5C76B"];
+    const particles = [];
+    const frameDuration = 1000 / 60;
+    let width = 0, height = 0, pixelRatio = 0;
+    let frameId = null;
+    let previousFrame = null;
+
+    function clearTrail() {
+      if (frameId !== null) cancelAnimationFrame(frameId);
+      frameId = null;
+      previousFrame = null;
+      particles.length = 0;
+      context.clearRect(0, 0, width, height);
+    }
+
+    function draw(time) {
+      const elapsedFrames = previousFrame === null ? 1 : (time - previousFrame) / frameDuration;
+      previousFrame = time;
+      context.clearRect(0, 0, width, height);
+      for (let i = particles.length - 1; i >= 0; i--) {
+        const particle = particles[i];
+        particle.opacity -= .03 * elapsedFrames;
+        particle.radius *= Math.pow(.97, elapsedFrames);
+        if (particle.opacity <= 0) {
+          particles.splice(i, 1);
+          continue;
+        }
+        context.globalAlpha = particle.opacity;
+        context.fillStyle = particle.color;
+        context.beginPath();
+        context.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
+        context.fill();
+      }
+      context.globalAlpha = 1;
+      frameId = particles.length ? requestAnimationFrame(draw) : null;
+      if (frameId === null) previousFrame = null;
+    }
+
+    document.addEventListener("pointermove", (event) => {
+      if (event.pointerType !== "mouse" || motionPreference.matches || document.body.classList.contains("locked")) return;
+      const ratio = Math.min(window.devicePixelRatio || 1, 2);
+      if (width !== innerWidth || height !== innerHeight || pixelRatio !== ratio) {
+        clearTrail();
+        width = innerWidth;
+        height = innerHeight;
+        pixelRatio = ratio;
+        canvas.width = Math.round(width * ratio);
+        canvas.height = Math.round(height * ratio);
+        context.setTransform(ratio, 0, 0, ratio, 0, 0);
+      }
+      if (particles.length >= 30) return;
+      particles.push({
+        x: event.clientX,
+        y: event.clientY,
+        radius: 2 + Math.random() * 4,
+        opacity: 1,
+        color: colors[Math.floor(Math.random() * colors.length)]
+      });
+      if (frameId === null) frameId = requestAnimationFrame(draw);
+    }, { passive: true });
+    addEventListener("resize", clearTrail);
+    motionPreference.addEventListener("change", clearTrail);
+  }
+
   function setupPointerEffects() {
     const motionPreference = matchMedia("(prefers-reduced-motion: reduce)");
     const ambient = $("ambient-motifs");
@@ -294,15 +363,12 @@
       { symbol: "🪷", kind: "lotus", count: 6, duration: 30, size: 1.75 },
       { symbol: "🕉️", kind: "om", count: 4, duration: 40, size: 1.9 }
     ];
-    const trailInterval = 20;
-    let lastPoint;
     let lastBurst = -Infinity;
 
     function refreshAmbientMotifs() {
       ambient.replaceChildren();
       ritualFlourishes.replaceChildren();
       effects.replaceChildren();
-      lastPoint = undefined;
       lastBurst = -Infinity;
       if (motionPreference.matches) return;
 
@@ -335,18 +401,6 @@
       effects.append(effect);
     }
 
-    function trail(event) {
-      if (motionPreference.matches || document.body.classList.contains("locked") || event.pointerType !== "mouse") return;
-      const { clientX: x, clientY: y } = event;
-      if (lastPoint && (event.timeStamp - lastPoint.time < trailInterval || Math.hypot(x - lastPoint.x, y - lastPoint.y) < 3)) return;
-      lastPoint = { x, y, time: event.timeStamp };
-      const sparkle = document.createElement("span");
-      sparkle.className = "pointer-sparkle";
-      sparkle.style.setProperty("--sparkle-color", Math.random() < .55 ? "#b78a35" : "#9f466b");
-      sparkle.style.setProperty("--sparkle-size", `${3 + Math.random() * 3}px`);
-      addEffect(sparkle, x, y);
-    }
-
     function burstHearts(x, y) {
       const ring = document.createElement("span");
       ring.className = "pointer-burst";
@@ -371,7 +425,6 @@
       addEffect(ring, x, y);
     }
 
-    document.addEventListener("pointermove", trail, { passive: true });
     document.addEventListener("click", (event) => {
       if (motionPreference.matches || document.body.classList.contains("locked") || cover.contains(event.target)) return;
       const fromPointer = event.detail > 0;
@@ -399,6 +452,7 @@
 
     refreshAmbientMotifs();
     motionPreference.addEventListener("change", refreshAmbientMotifs);
+    setupCursorTrail(motionPreference);
   }
 
   setupPointerEffects();
