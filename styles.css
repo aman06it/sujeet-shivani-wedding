@@ -25,34 +25,40 @@ button { font: inherit; }
 .is-hidden { display: none !important; }
 .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
-.opening { position: fixed; inset: 0; z-index: 90; display: grid; place-items: center; overflow: hidden auto; padding: .85rem; color: #fae8bf; }
+.opening { position: fixed; inset: 0; z-index: 90; display: grid; place-items: center; overflow: hidden auto; padding: .85rem; color: #f0e0b8; perspective: 1200px; }
 .opening[hidden], .music-button[hidden] { display: none; }
-.opening__panel { position: absolute; z-index: 2; inset-block: 0; width: 50%; background: linear-gradient(145deg, #711c34, #5a1028 57%, #460918); transition: transform 1.9s cubic-bezier(.74,.02,.22,1), visibility 0s linear 1.9s; }
+.opening__panel { position: absolute; z-index: 2; inset-block: 0; width: 50.5%; background: linear-gradient(160deg, #701a35 0%, #5c0f28 48%, #4a0818 100%); }
 .opening__panel::after { content: ""; position: absolute; inset: 0 0 auto; height: 4px; background: linear-gradient(90deg, #c9a34500, #d0ad4b); }
-.opening__panel--left { left: 0; box-shadow: inset -18px 0 30px #42081829; }
-.opening__panel--right { right: 0; background: linear-gradient(215deg, #6e1b32, #5a1028 57%, #460918); box-shadow: inset 18px 0 30px #761e342d; }
+.opening__panel--left { --curtain-exit: -108%; --curtain-fold: 18deg; left: 0; transform-origin: left center; box-shadow: inset -24px 0 48px #00000026; }
+.opening__panel--right { --curtain-exit: 108%; --curtain-fold: -18deg; right: 0; transform-origin: right center; box-shadow: inset 24px 0 48px #00000026; }
 .opening__panel--right::after { transform: scaleX(-1); }
-.opening__content { position: relative; z-index: 3; width: min(100%, 25rem); padding: clamp(.9rem, 4vw, 1.25rem); border: 1px solid #ba893d8c; border-radius: 1.6rem; background: linear-gradient(155deg, #591328c9, #470a1be8); box-shadow: 0 1.2rem 3.2rem #27061359, inset 0 1px #ffdb8240; text-align: center; transition: opacity .38s ease, transform .6s ease; }
-.opening__medallion { display: grid; align-content: center; justify-items: center; min-height: 14rem; width: min(100%, 16.5rem); aspect-ratio: 1; margin: 0 auto; padding: .85rem; border: 2px solid #c28e3e95; border-radius: 50%; background: radial-gradient(circle, #81243982, #4d0e2280 70%); box-shadow: 0 0 2.1rem #cc8e4330, inset 0 0 1.7rem #cc8e431c; }
-.opening__blessing { margin: 0 0 .65rem; color: #e7c258; font: 1.35rem var(--sanskrit); }
-.opening h1 { display: grid; justify-items: center; gap: .07rem; margin: 0; font: 700 clamp(2.5rem, 9vw, 3.45rem)/.94 var(--serif); overflow-wrap: anywhere; }
-.opening__heart { color: #f6a5bc; font: 1.2rem/1 var(--sans); margin-block: .25rem; animation: cover-heartbeat 2.3s ease-in-out infinite; }
+.opening__content { position: relative; z-index: 3; width: min(88vw, 400px); padding: 1.4rem clamp(.9rem, 4vw, 1.35rem) 1.35rem; border: 1px solid #d4af3759; border-radius: 28px; background: linear-gradient(168deg, #5c0f28, #4a0818 52%, #561228); box-shadow: 0 18px 48px #1a0610a6, inset 0 1px #f0e0b81f; text-align: center; transition: opacity .9s ease, transform 1.1s cubic-bezier(.22,1,.36,1); }
+.opening__medallion { position: relative; isolation: isolate; display: grid; align-content: center; justify-items: center; width: min(62vw, 260px); aspect-ratio: 1; margin: 0 auto; padding: .5rem; }
+.opening__medallion::before { content: ""; position: absolute; z-index: -1; inset: 0; border: 2px solid #d4af3773; border-radius: 50%; background: radial-gradient(circle at 50% 45%, #701a35e6, #4a0818f5); }
+.opening__blessing { margin: 0 0 .75rem; color: #d4af37; font: clamp(1.15rem, 5.2vw, 1.65rem)/1.15 var(--sanskrit); }
+.opening h1 { display: grid; justify-items: center; margin: 0; font: 700 clamp(1.85rem, 9vw, 2.5rem)/1.16 var(--serif); text-shadow: 0 4px 24px #d4af3740; overflow-wrap: anywhere; }
+.opening__heart { color: #ffb4c8; font: 1.35rem/1 var(--sans); margin-block: .25rem; animation: cover-heartbeat 2.2s ease-in-out infinite; }
 @keyframes cover-heartbeat {
   0%, 55%, 100% { transform: scale(1); }
   18% { transform: scale(1.19); }
   35% { transform: scale(1.08); }
 }
-.opening__caption { margin: .5rem 0 0; color: #f9d9c5; font: italic 600 1.05rem/1.2 var(--serif); }
+.opening__caption { margin: .35rem 0 0; color: #fff0e8bf; font: italic 600 .82rem/1.25 var(--serif); letter-spacing: .045em; }
 .signature i, .footer__names i { color: var(--gold); font-family: var(--serif); font-weight: 400; }
 .opening__guest { margin: .55rem 0 0; color: #fae8bf; font-size: .88rem; overflow-wrap: anywhere; }
-.opening__actions { display: grid; justify-items: center; gap: .2rem; margin-top: .9rem; }
-.opening #open-invitation { width: 100%; min-height: 58px; border: 1px solid #f0d686; background: linear-gradient(110deg, #d9aa38, #e8c66b); color: #540c23; font: 700 1.28rem/1.05 var(--serif); box-shadow: 0 .35rem 1.25rem #c8813333; }
-.opening .button--quiet { min-height: 44px; padding: .4rem .75rem; background: transparent; color: #f5d7c9; font-size: .88rem; text-decoration: underline; text-underline-offset: .24em; }
+.opening__actions { display: grid; justify-items: center; margin-top: .9rem; }
+.opening #open-invitation { width: 100%; min-height: 58px; border: 2px solid #ffffff4d; background: linear-gradient(135deg, #d4af37, #e5c76b); color: #5c0f28; font: 700 1.04rem/1.25 var(--serif); }
+.opening #open-invitation span { max-width: 29ch; }
+.opening .button--quiet { position: absolute; top: calc(100% + .25rem); min-height: 44px; padding: .4rem .75rem; background: transparent; color: #f5d7c9; font-size: .88rem; text-decoration: underline; text-underline-offset: .24em; }
+@media (max-height: 500px) { .opening { padding-bottom: 3.7rem; } }
 .opening.is-open { pointer-events: none; }
-.opening.is-open .opening__panel { visibility: hidden; }
-.opening.is-open .opening__panel--left { transform: translateX(-103%); }
-.opening.is-open .opening__panel--right { transform: translateX(103%); }
-.opening.is-open .opening__content { opacity: 0; transform: translateY(-12px) scale(.97); }
+.opening.is-open .opening__panel { animation: curtain-open 1.9s cubic-bezier(.76,0,.24,1) forwards; }
+@keyframes curtain-open {
+  0% { transform: translateX(0) rotateY(0); }
+  67% { transform: translateX(calc(var(--curtain-exit) * .91)) rotateY(var(--curtain-fold)); }
+  100% { transform: translateX(var(--curtain-exit)) rotateY(0); visibility: hidden; }
+}
+.opening.is-open .opening__content { opacity: 0; transform: scale(1.05); }
 
 .button { min-height: 48px; padding: .85rem 1.55rem; border: 1px solid transparent; border-radius: 999px; cursor: pointer; font-weight: 600; font-size: .82rem; letter-spacing: .04em; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; transition: transform .25s ease, background .25s ease, color .25s ease, border-color .25s ease; }
 .button:hover { transform: translateY(-2px); }
@@ -527,13 +533,15 @@ main::before {
   to { opacity: 1; transform: translateY(0); }
 }
 
-.opening__medallion { animation: medallion-glow 3s ease-in-out infinite; }
+.opening__medallion::before { animation: medallion-glow 3s ease-in-out infinite; }
 .opening #open-invitation { animation: invitation-button-glow 2.4s ease-in-out infinite; }
 @keyframes medallion-glow {
-  50% { box-shadow: 0 0 2.65rem #e9a94765, inset 0 0 2rem #d8994b28; }
+  0%, 100% { box-shadow: 0 0 22px #d4af3726, inset 0 0 20px #f0e0b80d; }
+  50% { transform: scale(1.03); box-shadow: 0 0 36px #d4af3747, inset 0 0 28px #f0e0b819; }
 }
 @keyframes invitation-button-glow {
-  50% { box-shadow: 0 .45rem 1.8rem #eabe5466; }
+  0%, 100% { box-shadow: 0 8px 24px #d4af3740; }
+  50% { box-shadow: 0 12px 34px #d4af376b; }
 }
 .opening__interlude { isolation: isolate; }
 .opening__interlude::before {
@@ -597,7 +605,7 @@ main::before {
 @media (prefers-reduced-motion: reduce) {
   main::before, .hero__content::after, .reading-progress::after,
   .hero__content.visible #hero-bride, .hero__content.visible #hero-groom,
-  .opening__medallion, .opening #open-invitation, .opening__interlude::before,
+  .opening__medallion::before, .opening #open-invitation, .opening__interlude::before,
   .page-heading h2 span, .ritual-card__icon, .countdown div,
   .countdown strong.countdown-tick { animation: none; }
 }
