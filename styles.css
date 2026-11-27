@@ -243,7 +243,7 @@ section[id] { scroll-margin-top: 1rem; }
 .section-menu a span[aria-hidden] { flex: 0 0 1.25rem; text-align: center; }
 .section-menu a [lang="hi"] { font-size: 1.03rem; }
 
-.opening__interlude { position: absolute; z-index: 4; inset: 0; display: none; place-content: center; justify-items: center; padding: 1rem; text-align: center; background: radial-gradient(circle at 50% 43%, #68273c, #230711 70%); color: #efce8c; }
+.opening__interlude { position: absolute; z-index: 1; inset: 0; display: none; place-content: center; justify-items: center; padding: 1rem; text-align: center; background: radial-gradient(circle at 50% 43%, #68273c, #230711 70%); color: #efce8c; }
 .opening.is-open .opening__interlude { display: grid; animation: blessing-interlude 4.3s linear both; }
 .opening__interlude img { width: clamp(4.8rem, 18svh, 6.85rem); height: auto; aspect-ratio: 1; object-fit: cover; object-position: center top; border: 2px solid #d4a953; border-radius: 50%; box-shadow: 0 0 2.75rem #edb55e62; }
 .opening__interlude p { margin: .85rem 0 0; font-size: 1.35rem; }
@@ -255,8 +255,7 @@ section[id] { scroll-margin-top: 1rem; }
 .opening.is-open .opening__interlude .opening__verse { animation-delay: 1.55s; }
 .opening.is-open .opening__interlude .opening__wish { animation-delay: 1.9s; }
 @keyframes blessing-interlude {
-  0%, 23% { opacity: 0; }
-  36%, 89% { opacity: 1; }
+  0%, 89% { opacity: 1; }
   100% { opacity: 0; }
 }
 @keyframes blessing-line {
@@ -322,7 +321,7 @@ section[id] { scroll-margin-top: 1rem; }
 .invocation__verse p[lang] { font-size: clamp(1.05rem, min(3.8vw, 2.4svh), 1.5rem); color: var(--accent); line-height: 1.75; }
 .invocation__verse p + p { margin-top: clamp(.65rem, 2svh, 1.5rem); color: var(--soft); font-size: clamp(.9rem, 1.75svh, 1.07rem); font-style: italic; }
 .invocation__continue { display: inline-flex; align-items: center; min-height: 44px; margin-top: .75rem; color: var(--accent); font-weight: 700; text-underline-offset: .25rem; }
-.invitation-open .invocation__inner { animation: opening-rise .64s ease-out both; }
+.opening.is-open ~ main .invocation__inner { animation: opening-rise .5s 3.8s ease-out both; }
 
 .hero, .story, .rituals, .celebration, .date-section, .venue, .rsvp, .wedding-blessing, footer { background: transparent; color: var(--ink); }
 body { background-image: var(--paper-pattern); background-size: auto, 28px 28px; background-attachment: fixed; }

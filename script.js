@@ -517,16 +517,15 @@
   function revealInvitation() {
     if (opening.classList.contains("is-open")) return;
     const focusWasInOpening = opening.contains(document.activeElement);
+    if (!location.hash && scrollY > 0) window.scrollTo({ top: 0, behavior: "instant" });
     opening.classList.add("is-open");
     opening.inert = true;
     function finishOpening() {
       if (opening.hidden) return;
       opening.hidden = true;
       document.body.classList.remove("locked");
-      if (!location.hash && scrollY > 0) window.scrollTo({ top: 0, behavior: "instant" });
       pageContent.forEach((element) => { element.inert = false; });
       musicButton.hidden = false;
-      document.body.classList.add("invitation-open");
       if (focusWasInOpening) $("invocation-title").focus({ preventScroll: true });
       petals(28);
     }
